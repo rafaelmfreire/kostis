@@ -15,11 +15,9 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->string('source');
             $table->datetime('date');
             $table->integer('cost');
             $table->string('description');
-            $table->string('category');
             $table->string('observation');
             $table->timestamps();
         });
