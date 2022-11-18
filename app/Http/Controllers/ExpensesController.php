@@ -9,7 +9,7 @@ class ExpensesController extends Controller
 {
     public function index()
     {
-        $expenses = Expense::all()->where('user_id', Auth::user()->id);
+        $expenses = Expense::where('user_id', Auth::user()->id)->get();
 
         return inertia('Expenses/Index', ['expenses' => $expenses]);
     }
