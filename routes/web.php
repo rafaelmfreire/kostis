@@ -29,6 +29,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/expenses', [ExpensesController::class, 'index']);
+Route::get('/expenses', [ExpensesController::class, 'index'])->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

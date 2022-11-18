@@ -15,6 +15,15 @@ class ViewExpenseListTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
+    public function guests_cannot_view_a_users_list_of_expenses()
+    {
+        $response = $this->get('/expenses');
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/login');
+    }
+
+    /** @test */
     public function user_can_view_a_list_of_their_expenses()
     {
         $this->withoutExceptionHandling();
