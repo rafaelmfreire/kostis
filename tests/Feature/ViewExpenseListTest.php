@@ -26,8 +26,6 @@ class ViewExpenseListTest extends TestCase
     /** @test */
     public function user_can_view_a_list_of_their_expenses()
     {
-        $this->withoutExceptionHandling();
-
         //Arrange
         $user = User::factory()->create();
         $otherUser = User::factory()->create();

@@ -15,8 +15,6 @@ class ExpenseTest extends TestCase
     /** @test */
     public function can_get_formatted_date()
     {
-        $this->withoutExceptionHandling();
-
         $user = User::factory()->create();
 
         $expense = Expense::factory()->create([
