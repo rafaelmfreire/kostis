@@ -33,6 +33,7 @@ class ViewExpenseListTest extends TestCase
         //Assert
         $response->assertStatus(200);
         $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Index')
             ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
                 return $value->contains($expenseA->toArray()) &&
                        $value->contains($expenseC->toArray()) &&

@@ -21,7 +21,6 @@ const props = defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
-                        aasfasf15/11/2022asfasfas
                         <div v-for="expense in expenses" :key="expense.id">
                             <p>{{ new Intl.DateTimeFormat('pt-BR', { timeZone: 'GMT' }).format(new Date(expense.date)) }}</p>
                             <p>{{ expense.cost }}</p>
