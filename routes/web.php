@@ -29,6 +29,12 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/expenses', [ExpensesController::class, 'index'])->middleware(['auth', 'verified']);
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::prefix('expenses')->controller(ExpensesController::class)->group(function () {
+        Route::get('/', 'index')->name('expenses.index');
+        Route::get('/create', 'create');
+        Route::post('/', 'store');
+    });
+});
 
 require __DIR__.'/auth.php';
