@@ -14,19 +14,19 @@ class Expense extends Model
 
     protected $appends = ['date_formatted', 'cost_formatted'];
 
-    public function dateFormatted(): Attribute
+    public function formattedDate(): Attribute
     {
         return new Attribute(
             get: fn () => $this->date->format('d/m/Y'),
         );
     }
 
-    public function costFormatted(): Attribute
-    {
-        return new Attribute(
-            get: fn () => number_format($this->cost / 100, 2, ',', '.'),
-        );
-    }
+    // public function costFormatted(): Attribute
+    // {
+    //     return new Attribute(
+    //         get: fn () => number_format($this->cost / 100, 2, ',', '.'),
+    //     );
+    // }
 
     public function toArray()
     {
