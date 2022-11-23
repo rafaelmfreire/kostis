@@ -12,12 +12,6 @@ class AddExpensesTest extends TestCase
 {
     use DatabaseMigrations;
 
-    // public function from($url)
-    // {
-    //     session()->setPreviousUrl(url($url));
-    //     return $this;
-    // }
-
     /** @test */
     public function users_can_view_the_add_expense_form()
     {
