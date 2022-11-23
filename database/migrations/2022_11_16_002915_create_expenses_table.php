@@ -19,7 +19,7 @@ return new class extends Migration
             $table->datetime('date');
             $table->integer('cost');
             $table->string('description');
-            $table->string('observation');
+            $table->string('observation')->nullable();
             $table->timestamps();
         });
     }

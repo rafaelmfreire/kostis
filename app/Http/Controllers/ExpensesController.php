@@ -23,12 +23,14 @@ class ExpensesController extends Controller
     {
         $this->validate(request(), [
             'date' => ['required', 'date'],
+            'cost' => ['required', 'numeric'],
+            'description' => ['required'],
         ]);
 
-        Expense::create([
+        Auth::user()->expenses()->create([
             'user_id' => Auth::user()->id,
             'date' => Carbon::parse(request('date')),
-            'cost' => (int) str_replace('.', '', request('cost')) * 100,
+            'cost' => request('cost') * 100,
             'description' => request('description'),
             'observation' => request('observation'),
         ]);
