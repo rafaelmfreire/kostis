@@ -12,6 +12,16 @@ class AddExpensesTest extends TestCase
 {
     use DatabaseMigrations;
 
+    private function validParams($overrides = [])
+    {
+        return array_merge([
+            'date' => '2022-11-18',
+            'cost' => '1125.00',
+            'description' => 'Example',
+            'observation' => 'some observation',
+        ], $overrides);
+    }
+
     /** @test */
     public function users_can_view_the_add_expense_form()
     {
@@ -40,7 +50,7 @@ class AddExpensesTest extends TestCase
 
         $response = $this->actingAs($user)->post('/expenses', [
             'date' => '2022-11-18',
-            'cost' => '1.125,00',
+            'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
         ]);
@@ -60,12 +70,7 @@ class AddExpensesTest extends TestCase
     /** @test */
     public function guests_cannot_add_new_expenses()
     {
-        $response = $this->post('/expenses', [
-            'date' => '2022-11-18',
-            'cost' => '1.125,00',
-            'description' => 'Example',
-            'observation' => 'some observation',
-        ]);
+        $response = $this->post('/expenses', $this->validParams());
 
         $response->assertStatus(302);
         $response->assertRedirect('/login');
@@ -77,16 +82,95 @@ class AddExpensesTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', [
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
             'date' => '',
-            'cost' => '1.125,00',
-            'description' => 'Example',
-            'observation' => 'some observation',
-        ]);
+        ]));
 
         $response->assertStatus(302);
         $response->assertRedirect('/expenses/create');
         $response->assertSessionHasErrors('date');
         $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function date_must_be_a_valid_date()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'date' => 'not-a-date',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('date');
+        $this->assertEquals(0, Expense::count());
+    
+    }
+
+    /** @test */
+    public function cost_is_required()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'cost' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('cost');
+        $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function cost_must_be_numeric()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'cost' => 'not-a-number',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('cost');
+        $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function description_is_required()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'description' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('description');
+        $this->assertEquals(0, Expense::count());
+    }
+
+
+    /** @test */
+    public function observation_is_optional()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post('/expenses', $this->validParams([
+            'observation' => '',
+        ]));
+
+        tap(Expense::first(), function ($expense) use ($response, $user) {
+            $response->assertRedirect('/expenses');
+
+            $this->assertTrue($expense->user->is($user));
+
+            $this->assertNull($expense->observation);
+        });
     }
 }
