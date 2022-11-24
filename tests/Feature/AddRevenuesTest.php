@@ -6,8 +6,6 @@ use App\Models\Revenue;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AddRevenuesTest extends TestCase
@@ -155,7 +153,6 @@ class AddRevenuesTest extends TestCase
         $response->assertSessionHasErrors('description');
         $this->assertEquals(0, Revenue::count());
     }
-
 
     /** @test */
     public function observation_is_optional()

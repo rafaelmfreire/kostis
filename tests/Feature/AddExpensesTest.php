@@ -109,7 +109,6 @@ class AddExpensesTest extends TestCase
         $response->assertRedirect('/expenses/create');
         $response->assertSessionHasErrors('date');
         $this->assertEquals(0, Expense::count());
-    
     }
 
     /** @test */
@@ -156,7 +155,6 @@ class AddExpensesTest extends TestCase
         $response->assertSessionHasErrors('description');
         $this->assertEquals(0, Expense::count());
     }
-
 
     /** @test */
     public function observation_is_optional()

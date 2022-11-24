@@ -42,5 +42,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/revenues', [RevenuesController::class, 'store']);
 });
 
-
 require __DIR__.'/auth.php';

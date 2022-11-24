@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RevenuesController extends Controller
@@ -11,7 +10,6 @@ class RevenuesController extends Controller
     //
     public function create()
     {
-
     }
 
     public function store()
