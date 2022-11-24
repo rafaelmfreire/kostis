@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExpensesController;
+use App\Http\Controllers\RevenuesController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -35,6 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create');
         Route::post('/', 'store');
     });
+
+    Route::get('/revenues', [RevenuesController::class, 'index'])->name('revenues.index');
+    Route::get('/revenues/create', [RevenuesController::class, 'create']);
+    Route::post('/revenues', [RevenuesController::class, 'store']);
 });
+
 
 require __DIR__.'/auth.php';
