@@ -6,7 +6,6 @@ namespace Tests\Feature;
 use App\Models\Expense;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Inertia\Testing\Assert;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
