@@ -6,6 +6,7 @@ use App\Models\Expense;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class AddExpensesTest extends TestCase
@@ -30,6 +31,9 @@ class AddExpensesTest extends TestCase
         $response = $this->actingAs($user)->get('/expenses/create');
 
         $response->assertStatus(200);
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Create')
+        );
     }
 
     /** @test */

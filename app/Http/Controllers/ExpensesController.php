@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class ExpensesController extends Controller
 {
@@ -17,6 +18,7 @@ class ExpensesController extends Controller
 
     public function create()
     {
+        return Inertia::render('Expenses/Create');
     }
 
     public function store()
