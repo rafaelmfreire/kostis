@@ -25,7 +25,7 @@ class ExpenseTest extends TestCase
     }
 
     /** @test */
-    public function can_get_formatted_cost()
+    public function can_get_cost_in_brazilian_real()
     {
         $user = User::factory()->make();
 
