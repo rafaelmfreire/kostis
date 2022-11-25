@@ -2,10 +2,21 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import ButtonLink from "@/Components/ButtonLink.vue";
 import { Head } from '@inertiajs/inertia-vue3';
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     expenses: Object,
 })
+
+function deleteItem(id) {
+    if(! confirm('Are you sure you want to delete this expense?')) {
+        return;
+    }
+
+    Inertia.delete(`/expenses/${id}`, {
+        preserveState: true,
+    })
+}
 </script>
 
 <template>
@@ -35,6 +46,7 @@ const props = defineProps({
                                             <th class="px-6 py-2 text-right w-1 uppercase text-xs tracking-wider font-bold">Cost</th>
                                             <th class="px-6 py-2 text-left uppercase text-xs tracking-wider font-bold">Description</th>
                                             <th class="px-6 py-2 text-left uppercase text-xs tracking-wider font-bold">Observation</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
@@ -45,6 +57,7 @@ const props = defineProps({
                                             </td>
                                             <td class="px-6 py-2">{{ expense.description }}</td>
                                             <td class="px-6 py-2">{{ expense.observation }}</td>
+                                            <td class="text-red-500 hover:text-red-700 cursor-pointer" @click="deleteItem(expense.id)">Delete</td>
                                         </tr>
                                     </tbody>
                                 </table>
