@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import ButtonLink from "@/Components/ButtonLink.vue";
 import { Head } from '@inertiajs/inertia-vue3';
 
 const props = defineProps({
@@ -8,13 +9,17 @@ const props = defineProps({
 </script>
 
 <template>
-    <Head title="Expense's List" />
+    <Head title="Expenses List" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Expense's List
-            </h2>
+            <div class="flex justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    Expenses List
+                </h2>
+
+                <ButtonLink href="/expenses/create">Add new expense</ButtonLink>
+            </div>
         </template>
 
         <div class="py-12">
