@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ExpensesController;
-use App\Http\Controllers\RevenuesController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\RevenueController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,16 +31,20 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::prefix('expenses')->controller(ExpensesController::class)->group(function () {
+    Route::prefix('expenses')->controller(ExpenseController::class)->group(function () {
         Route::get('/', 'index')->name('expenses.index');
         Route::get('/create', 'create');
         Route::post('/', 'store')->name('expenses.store');
         Route::delete('/{expense}', 'delete');
     });
     
-    Route::get('/revenues', [RevenuesController::class, 'index'])->name('revenues.index');
-    Route::get('/revenues/create', [RevenuesController::class, 'create']);
-    Route::post('/revenues', [RevenuesController::class, 'store'])->name('revenues.store');
+    Route::prefix('revenues')->controller(RevenueController::class)->group(function () {
+        Route::get('', 'index')->name('revenues.index');
+        Route::get('/create', 'create');
+        Route::post('', 'store')->name('revenues.store');
+        Route::delete('/{revenue}', 'delete');
+    });
 });
+
 
 require __DIR__.'/auth.php';

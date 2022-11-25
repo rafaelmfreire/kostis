@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class ExpensesController extends Controller
+class ExpenseController extends Controller
 {
     public function index()
     {

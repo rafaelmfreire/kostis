@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class RevenuesController extends Controller
+class RevenueController extends Controller
 {
     public function index()
     {
@@ -37,6 +37,14 @@ class RevenuesController extends Controller
             'observation' => request('observation'),
         ]);
 
+        return redirect()->route('revenues.index');
+    }
+
+    public function delete(Revenue $revenue)
+    {
+        $revenue = Auth::user()->revenues()->findOrFail($revenue->id);
+
+        $revenue->delete();
         return redirect()->route('revenues.index');
     }
 }
