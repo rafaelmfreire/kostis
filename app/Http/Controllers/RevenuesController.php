@@ -2,14 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Revenue;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class RevenuesController extends Controller
 {
-    //
+    public function index()
+    {
+        $revenues = Revenue::where('user_id', Auth::user()->id)->get();
+
+        return Inertia::render('Revenues/Index', ['revenues' => $revenues]);
+    }
+
     public function create()
     {
+        return Inertia::render('Revenues/Create');
     }
 
     public function store()

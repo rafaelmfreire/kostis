@@ -36,10 +36,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create');
         Route::post('/', 'store')->name('expenses.store');
     });
-
+    
     Route::get('/revenues', [RevenuesController::class, 'index'])->name('revenues.index');
     Route::get('/revenues/create', [RevenuesController::class, 'create']);
-    Route::post('/revenues', [RevenuesController::class, 'store']);
+    Route::post('/revenues', [RevenuesController::class, 'store'])->name('revenues.store');
 });
 
 require __DIR__.'/auth.php';

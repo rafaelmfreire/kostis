@@ -6,6 +6,7 @@ use App\Models\Revenue;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
 class AddRevenuesTest extends TestCase
@@ -30,8 +31,12 @@ class AddRevenuesTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/revenues/create');
-
+        
         $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Revenues/Create')
+        );
     }
 
     /** @test */
