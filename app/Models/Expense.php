@@ -10,9 +10,9 @@ class Expense extends Model
 {
     use HasFactory;
 
-    protected $dates = ['date'];
+    protected $dates = ['date', 'formatted_date'];
 
-    protected $appends = ['date_formatted', 'cost_formatted'];
+    protected $appends = ['formatted_date', 'formatted_cost'];
 
     public function formattedDate(): Attribute
     {
@@ -21,25 +21,26 @@ class Expense extends Model
         );
     }
 
-    // public function costFormatted(): Attribute
-    // {
-    //     return new Attribute(
-    //         get: fn () => number_format($this->cost / 100, 2, ',', '.'),
-    //     );
-    // }
+    public function formattedCost(): Attribute
+    {
+        return new Attribute(
+            get: fn () => number_format($this->cost / 100, 2, ',', '.'),
+        );
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function toArray()
-    {
-        return [
-            'date' => $this->date->format('Y-m-d'),
-            'cost' => $this->cost,
-            'description' => $this->description,
-            'observation' => $this->observation,
-        ];
-    }
+    // public function toArray()
+    // {
+    //     return [
+    //         'date' => $this->date->format('Y-m-d'),
+    //         'formatted_date' => $this->formatted_date,
+    //         'cost' => $this->cost,
+    //         'description' => $this->description,
+    //         'observation' => $this->observation,
+    //     ];
+    // }
 }

@@ -23,4 +23,19 @@ class ExpenseTest extends TestCase
 
         $this->assertEquals('18/11/2022', $date);
     }
+
+    /** @test */
+    public function can_get_formatted_cost()
+    {
+        $user = User::factory()->make();
+
+        $expense = Expense::factory()->make([
+            'user_id' => $user->id,
+            'cost' => 112500,
+        ]);
+
+        $cost = $expense->formatted_cost;
+
+        $this->assertEquals('1.125,00', $cost);
+    }
 }
