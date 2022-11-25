@@ -35,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', 'index')->name('expenses.index');
         Route::get('/create', 'create');
         Route::post('/', 'store')->name('expenses.store');
+        Route::delete('/{expense}', 'delete');
     });
     
     Route::get('/revenues', [RevenuesController::class, 'index'])->name('revenues.index');

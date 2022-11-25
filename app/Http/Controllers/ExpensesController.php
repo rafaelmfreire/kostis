@@ -39,4 +39,12 @@ class ExpensesController extends Controller
 
         return redirect()->route('expenses.index');
     }
+
+    public function delete(Expense $expense)
+    {
+        $expense = Auth::user()->expenses()->findOrFail($expense->id);
+
+        $expense->delete();
+        return redirect()->route('expenses.index');
+    }
 }
