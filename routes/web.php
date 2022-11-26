@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/', 'store')->name('expenses.store');
         Route::delete('/{expense}', 'delete');
     });
-    
+
     Route::prefix('revenues')->controller(RevenueController::class)->group(function () {
         Route::get('', 'index')->name('revenues.index');
         Route::get('/create', 'create');
@@ -45,6 +45,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{revenue}', 'delete');
     });
 });
-
 
 require __DIR__.'/auth.php';

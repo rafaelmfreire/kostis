@@ -45,6 +45,7 @@ class ExpenseController extends Controller
         $expense = Auth::user()->expenses()->findOrFail($expense->id);
 
         $expense->delete();
+
         return redirect()->route('expenses.index');
     }
 }

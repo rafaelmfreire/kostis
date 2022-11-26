@@ -45,6 +45,7 @@ class RevenueController extends Controller
         $revenue = Auth::user()->revenues()->findOrFail($revenue->id);
 
         $revenue->delete();
+
         return redirect()->route('revenues.index');
     }
 }
