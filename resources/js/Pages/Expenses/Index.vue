@@ -1,5 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import MonthList from "@/Components/MonthList.vue";
+import MonthItem from "@/Components/MonthItem.vue";
 import ButtonLink from "@/Components/ButtonLink.vue";
 import { Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
@@ -35,6 +37,17 @@ function deleteItem(id) {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+                <month-list>
+                    <!-- <month-item :addMonth="-3"></month-item>
+                    <month-item :addMonth="-2"></month-item>
+                    <month-item :addMonth="-1"></month-item> -->
+                    <month-item :addMonth="0"></month-item>
+                    <!-- <month-item :addMonth="1"></month-item>
+                    <month-item :addMonth="2"></month-item>
+                    <month-item :addMonth="3"></month-item> -->
+                </month-list>
+
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="mt-5 md:col-span-2 md:mt-0">
