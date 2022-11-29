@@ -57,8 +57,10 @@ class ExpenseController extends Controller
     {
         $expense = Auth::user()->expenses()->findOrFail($expense->id);
 
+        $month = $expense->date->format('Y-m');
+
         $expense->delete();
 
-        return redirect()->route('expenses.index');
+        return redirect()->route('expenses.index', ['month' => $month]);
     }
 }
