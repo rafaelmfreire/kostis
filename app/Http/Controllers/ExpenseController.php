@@ -11,7 +11,7 @@ class ExpenseController extends Controller
 {
     public function index()
     {
-        $month = request('month') ?? new Carbon(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
+        $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
         $start_date = new Carbon($month.'-01');
 
         $expenses = Expense::where(

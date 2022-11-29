@@ -15,8 +15,15 @@ function deleteItem(id) {
         return;
     }
 
-    Inertia.delete(`/expenses/${id}`, {
+    Inertia.delete(`/expenses/${id}`, { 
         preserveState: true,
+    })
+}
+
+function reload(month) {
+    Inertia.visit('/expenses?month='+month.date.getFullYear()+'-'+(month.date.getMonth()+1).toString().padStart(2, '0'), {
+        only: ['expenses'],
+        preserveState: true
     })
 }
 </script>
@@ -38,7 +45,7 @@ function deleteItem(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <month-list class="flex justify-between mb-8">
+                <month-list class="flex justify-between mb-8" @on-month-changed="reload">
                     <month-item :refMonth="-5" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
                     <month-item :refMonth="-4" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
                     <month-item :refMonth="-3" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
