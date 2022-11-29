@@ -46,6 +46,10 @@ class ExpenseController extends Controller
             'observation' => request('observation'),
         ]);
 
+        if (request('addNew')) {
+            return redirect()->route('expenses.create');
+        }
+
         return redirect()->route('expenses.index');
     }
 

@@ -33,7 +33,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('expenses')->controller(ExpenseController::class)->group(function () {
         Route::get('/', 'index')->name('expenses.index');
-        Route::get('/create', 'create');
+        Route::get('/create', 'create')->name('expenses.create');
         Route::post('/', 'store')->name('expenses.store');
         Route::delete('/{expense}', 'delete');
     });

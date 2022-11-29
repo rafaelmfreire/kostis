@@ -15,9 +15,10 @@ const form = reactive({
   observation: null,
 });
 
-function submit() {
+function submit(addNew) {
+    this.form.addNew = addNew
     Inertia.post(route('expenses.store'), this.form, {
-        preserveState: (page) => true,
+        preserveState: (page) => !addNew,
     })
 }
 </script>
@@ -66,8 +67,9 @@ function submit() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="bg-gray-50 px-4 py-3 text-right sm:px-6" >
-                                        <button type="button" @click="submit()" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" > Save </button>
+                                    <div class="bg-gray-50 px-4 py-3 text-right sm:px-6 space-x-4" >
+                                        <button type="button" @click="submit(false)" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" > Save </button>
+                                        <button type="button" @click="submit(true)" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" > Save and Add New</button>
                                     </div>
                                 </div>
                             </form>
