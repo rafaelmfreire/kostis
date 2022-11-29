@@ -74,16 +74,16 @@ class ViewExpenseListTest extends TestCase
             'user_id' => $user->id,
             'date' => Carbon::now(),
         ]);
-        
+
         //Act
         $response = $this->actingAs($user)->call('GET', '/expenses', ['month' => '2022-11']);
-    
+
         //Assert
         $response->assertStatus(200);
 
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Expenses/Index')
-            ->has( 'expenses', 2, fn (AssertableInertia $page) => $page
+            ->has('expenses', 2, fn (AssertableInertia $page) => $page
                 ->has('formatted_date')
                 ->has('formatted_cost')
                 ->has('description')
