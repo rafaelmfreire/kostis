@@ -11,7 +11,16 @@ class ExpenseController extends Controller
 {
     public function index()
     {
-        $expenses = Expense::where('user_id', Auth::user()->id)->get();
+        $month = request('month') ?? new Carbon(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
+        $start_date = new Carbon($month.'-01');
+
+        $expenses = Expense::where(
+            'user_id', Auth::user()->id
+        )->where(
+            'date', '>=', $start_date->format('Y-m-d')
+        )->where(
+            'date', '<', $start_date->add('month', 1)->format('Y-m-d')
+        )->get();
 
         return inertia('Expenses/Index', ['expenses' => $expenses]);
     }

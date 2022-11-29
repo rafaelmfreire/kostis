@@ -38,14 +38,18 @@ function deleteItem(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <month-list>
-                    <!-- <month-item :addMonth="-3"></month-item>
-                    <month-item :addMonth="-2"></month-item>
-                    <month-item :addMonth="-1"></month-item> -->
-                    <month-item :addMonth="0"></month-item>
-                    <!-- <month-item :addMonth="1"></month-item>
-                    <month-item :addMonth="2"></month-item>
-                    <month-item :addMonth="3"></month-item> -->
+                <month-list class="flex justify-between mb-8">
+                    <month-item :refMonth="-5" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="-4" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="-3" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="-2" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="-1" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="0" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="1" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="2" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="3" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="4" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
+                    <month-item :refMonth="5" class="px-3 py-1 bg-gray-200 rounded-md"></month-item>
                 </month-list>
 
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
