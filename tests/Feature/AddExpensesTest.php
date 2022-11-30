@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\User;
 use Carbon\Carbon;
@@ -51,12 +52,14 @@ class AddExpensesTest extends TestCase
         $this->withoutExceptionHandling();
 
         $user = User::factory()->create();
+        $category = Category::factory()->create();
 
         $response = $this->actingAs($user)->post('/expenses', [
             'date' => '2022-11-18',
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
+            'category_id' => $category->id
         ]);
 
         tap(Expense::first(), function ($expense) use ($response, $user) {
@@ -163,8 +166,13 @@ class AddExpensesTest extends TestCase
 
         $user = User::factory()->create();
 
+        // TODO: refactor to "hide" the setup of category since
+        // it's not an essential part of this test
+        $category = Category::factory()->create();
+
         $response = $this->actingAs($user)->post('/expenses', $this->validParams([
             'observation' => '',
+            'category_id' => $category->id
         ]));
 
         tap(Expense::first(), function ($expense) use ($response, $user) {
