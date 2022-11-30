@@ -9,6 +9,12 @@ module.exports = {
         './resources/js/**/*.vue',
     ],
 
+    safelist: [
+        {
+        pattern: /bg-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(200|700)/,
+        },
+    ],
+
     theme: {
         extend: {
             fontFamily: {
