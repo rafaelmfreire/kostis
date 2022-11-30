@@ -21,6 +21,8 @@ class ExpenseController extends Controller
             'date', '>=', $start_date->format('Y-m-d')
         )->where(
             'date', '<', $start_date->add('month', 1)->format('Y-m-d')
+        )->orderBy(
+            'date', 'desc'
         )->get()->map(function ($expense) {
             return [
                 'id' => $expense->id,
