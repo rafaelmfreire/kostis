@@ -21,10 +21,15 @@ class DeleteExpenseTest extends TestCase
 
         $this->assertEquals(1, Expense::count());
 
+        $month = $expense->date->format('Y-m');
+
         $response = $this->actingAs($user)->delete("/expenses/{$expense->id}");
 
         $this->assertEquals(0, Expense::count());
-        $response->assertRedirect('/expenses');
+
+        // The user is redirected to the index page
+        // with the same month filter applied
+        $response->assertRedirect('/expenses?month='.$month);
     }
 
     /** @test */
