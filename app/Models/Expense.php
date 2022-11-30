@@ -33,14 +33,25 @@ class Expense extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function toArray()
-    // {
-    //     return [
-    //         'date' => $this->date->format('Y-m-d'),
-    //         'formatted_date' => $this->formatted_date,
-    //         'cost' => $this->cost,
-    //         'description' => $this->description,
-    //         'observation' => $this->observation,
-    //     ];
-    // }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'category_id' => $this->category_id,
+            'date' => $this->date->toISOString(),
+            'formatted_date' => $this->formatted_date,
+            'cost' => $this->cost,
+            'formatted_cost' => $this->formatted_cost,
+            'description' => $this->description,
+            'observation' => $this->observation,
+            'category_name' => $this->category->name,
+            'category_color' => $this->category->color,
+        ];
+    }
 }

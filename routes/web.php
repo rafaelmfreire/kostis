@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\RevenueController;
 use Illuminate\Foundation\Application;
@@ -43,6 +44,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create');
         Route::post('', 'store')->name('revenues.store');
         Route::delete('/{revenue}', 'delete');
+    });
+
+    Route::prefix('categories')->controller(CategoryController::class)->group(function () {
+        Route::get('/create', 'create');
+        Route::post('', 'store')->name('categories.store');
+        Route::get('', 'index')->name('categories.index');
+        Route::delete('/{category}', 'delete');
     });
 });
 

@@ -5,7 +5,8 @@ import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
-  errors: Object,
+    categories: Object,
+    errors: Object,
 });
 
 const form = reactive({
@@ -42,16 +43,24 @@ function submit(addNew) {
                                 <div class="overflow-hidden sm:rounded-md" >
                                     <div class="bg-white px-4 py-5 sm:p-6">
                                         <div class="grid grid-cols-6 gap-6">
-                                            <div class="col-span-6 sm:col-span-3" >
+                                            <div class="col-span-6 sm:col-span-2" >
                                                 <label for="cost" class="block text-sm font-medium text-gray-700" >Cost</label >
                                                 <input @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.cost">{{ errors.cost }}</small>
                                             </div>
 
-                                            <div class="col-span-6 sm:col-span-3" >
+                                            <div class="col-span-6 sm:col-span-2" >
                                                 <label for="date" class="block text-sm font-medium text-gray-700" >Date</label >
                                                 <input @keydown="errors.date = null" v-model="form.date" type="date" name="date" id="date" :class="{ 'border-red-400' : errors.date }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.date">{{ errors.date }}</small>
+                                            </div>
+
+                                            <div class="col-span-6 sm:col-span-2" >
+                                                <label for="category" class="block text-sm font-medium text-gray-700" >Category</label >
+                                                <select v-model="form.category_id" @change="errors.category_id = null" :class="{ 'border-red-400' : errors.category_id }" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                                    <option :value="category.id" v-for="category in categories" :key="category">{{ category.name }}</option>
+                                                </select>
+                                                <small class="text-red-500" v-if="errors.category_id">{{ errors.category_id }}</small>
                                             </div>
 
                                             <div class="col-span-6 sm:col-span-6" >
