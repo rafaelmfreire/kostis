@@ -25,6 +25,8 @@ class DeleteRevenueTest extends TestCase
         
         $month = $revenue->date->format('Y-m');
 
+        $month = $revenue->date->format('Y-m');
+
         $response = $this->actingAs($user)->delete("/revenues/{$revenue->id}");
 
         $this->assertEquals(0, Revenue::count());

@@ -3,10 +3,13 @@
 namespace Tests\Feature;
 
 // use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use App\Models\Category;
 use App\Models\Expense;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -30,9 +33,14 @@ class ViewExpenseListTest extends TestCase
         $user = User::factory()->create();
         $otherUser = User::factory()->create();
 
-        $expenseA = Expense::factory()->create(['user_id' => $user->id]);
-        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id]);
-        $expenseC = Expense::factory()->create(['user_id' => $user->id]);
+        $category = Category::factory()->create();
+
+        $expenseA = Expense::factory()->create([
+            'user_id' => $user->id,
+            'category_id' => $category->id,
+        ]);
+        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id, 'category_id' => $category->id]);
+        $expenseC = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id]);
 
         //Act
         $response = $this->actingAs($user)->get('/expenses');
@@ -47,12 +55,17 @@ class ViewExpenseListTest extends TestCase
                 ->has('formatted_cost')
                 ->has('description')
                 ->has('observation')
+                ->has('user_id')
+                ->has('category_name')
+                ->has('category_color')
                 ->etc()
             )
             ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
-                return $value->contains($expenseA->toArray()) &&
-                       $value->contains($expenseC->toArray()) &&
-                       $value->doesntContain($expenseB->toArray());
+                return 
+                    collect($value[0])->diff($expenseA->toArray())->count() == 0 &&
+                    collect($value[1])->diff($expenseC->toArray())->count() == 0 &&
+                    collect($value[0])->diff($expenseB->toArray())->count() > 0 &&
+                    collect($value[1])->diff($expenseB->toArray())->count() > 0;
             })
         );
     }

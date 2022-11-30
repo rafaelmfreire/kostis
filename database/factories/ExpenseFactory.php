@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +23,9 @@ class ExpenseFactory extends Factory
             'cost' => fake()->randomNumber(4, true),
             'description' => fake()->word(),
             'observation' => fake()->sentence(),
+            'category_id' => function () {
+                return Category::factory()->create()->id;
+            }
         ];
     }
 }
