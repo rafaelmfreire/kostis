@@ -11,7 +11,16 @@ class RevenueController extends Controller
 {
     public function index()
     {
-        $revenues = Revenue::where('user_id', Auth::user()->id)->get();
+        $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
+        $start_date = new Carbon($month.'-01');
+
+        $revenues = Revenue::where(
+            'user_id', Auth::user()->id
+        )->where(
+            'date', '>=', $start_date->format('Y-m-d')
+        )->where(
+            'date', '<', $start_date->add('month', 1)->format('Y-m-d')
+        )->get();
 
         return Inertia::render('Revenues/Index', ['revenues' => $revenues]);
     }
@@ -44,8 +53,10 @@ class RevenueController extends Controller
     {
         $revenue = Auth::user()->revenues()->findOrFail($revenue->id);
 
+        $month = $revenue->date->format('Y-m');
+
         $revenue->delete();
 
-        return redirect()->route('revenues.index');
+        return redirect()->route('revenues.index', ['month' => $month]);
     }
 }
