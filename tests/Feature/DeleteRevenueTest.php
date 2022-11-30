@@ -23,10 +23,15 @@ class DeleteRevenueTest extends TestCase
 
         $this->assertEquals(1, Revenue::count());
 
+        $month = $revenue->date->format('Y-m');
+
         $response = $this->actingAs($user)->delete("/revenues/{$revenue->id}");
 
         $this->assertEquals(0, Revenue::count());
-        $response->assertRedirect('/revenues');
+
+        // The user is redirected to the index page
+        // with the same month filter applied
+        $response->assertRedirect('/revenues?month='.$month);
     }
 
     /** @test */
