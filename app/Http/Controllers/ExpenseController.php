@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Source;
 use App\Models\Expense;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -14,14 +15,15 @@ class ExpenseController extends Controller
     public function index()
     {
         $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
-        $start_date = new Carbon($month.'-01');
+        $start_date = new CarbonImmutable($month.'-01');
+        $end_date = $start_date->add('month', 1)->format('Y-m-d');
 
         $expenses = Expense::with(['category', 'source'])->where(
             'user_id', Auth::user()->id
         )->where(
             'date', '>=', $start_date->format('Y-m-d')
         )->where(
-            'date', '<', $start_date->add('month', 1)->format('Y-m-d')
+            'date', '<', $end_date
         )->orderBy(
             'date', 'desc'
         )->get()->map(function ($expense) {
@@ -43,7 +45,15 @@ class ExpenseController extends Controller
             ];
         });
 
-        return inertia('Expenses/Index', ['expenses' => $expenses]);
+        return inertia('Expenses/Index', [
+            'expenses' => $expenses, 
+            'stats' => [
+                'total_cost' => number_format($expenses->sum('cost')/100, 2, ',', '.'),
+                'most_expensive' => number_format($expenses->max('cost')/100, 2, ',', '.'),
+                'expenses_quantity' => $expenses->count(),
+                'average' => number_format(($expenses->sum('cost')/$expenses->count())/100, 2, ',', '.')
+            ]
+        ]);
     }
 
     public function create()

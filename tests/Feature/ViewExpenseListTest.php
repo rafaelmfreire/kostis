@@ -110,4 +110,117 @@ class ViewExpenseListTest extends TestCase
             )
         );
     }
+
+    /** @test */
+    public function user_can_view_the_total_cost_by_month()
+    {
+        $user = User::factory()->create();
+
+        $expenseA = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '1200',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '2500',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Index')
+            ->has('stats.total_cost')
+            ->where('stats.total_cost', '37,00')
+        );
+    }
+
+
+    /** @test */
+    public function user_can_view_the_most_expensive_expense_by_month()
+    {
+        $user = User::factory()->create();
+
+        $expenseA = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '3200',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '2500',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Index')
+            ->has('stats.most_expensive')
+            ->where('stats.most_expensive', '32,00')
+        );
+    }
+
+    /** @test */
+    public function user_can_view_the_quantity_of_expenses_by_month()
+    {
+        $user = User::factory()->create();
+
+        $expenseA = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '3200',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '2500',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Index')
+            ->has('stats.expenses_quantity')
+            ->where('stats.expenses_quantity', 2)
+        );
+    }
+
+    /** @test */
+    public function user_can_view_the_average_cost_by_month()
+    {
+        $user = User::factory()->create();
+
+        $expenseA = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '3200',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '2500',
+            'date' => Carbon::now()->format('Y-m-d')
+        ]);
+
+        $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
+
+        $response->assertStatus(200);
+
+        $response->assertInertia(fn (AssertableInertia $page) => $page
+            ->component('Expenses/Index')
+            ->has('stats.average')
+            ->where('stats.average', '28,50')
+        );
+    }
 }
