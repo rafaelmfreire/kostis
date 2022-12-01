@@ -76,8 +76,9 @@ function reload(month) {
                                     <tbody class="divide-y divide-gray-200">
                                         <tr v-for="revenue in revenues" :key="revenue.id" class="uppercase text-sm even:bg-gray-50">
                                             <td class="px-6 py-3 text-right tabular-nums">{{ revenue.formatted_date }}</td>
-                                            <td class="px-6 text-right whitespace-nowrap tabular-nums">
-                                                <span class="text-gray-400 text-xs">R$</span> {{ revenue.formatted_income }}
+                                            <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
+                                                <span class="text-gray-400 text-xs font-sans font-normal">R$</span>
+                                                {{ revenue.formatted_income }}
                                             </td>
                                             <td class="px-6">{{ revenue.description }}</td>
                                             <td class="px-6">{{ revenue.observation }}</td>

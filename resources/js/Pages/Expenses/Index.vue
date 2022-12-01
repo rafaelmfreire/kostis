@@ -77,12 +77,12 @@ function reload(month) {
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
                                         <tr v-for="expense in expenses" :key="expense.id" class="uppercase text-sm even:bg-gray-50">
-                                            <td class="px-6"><span :class="`px-3 py-1 rounded font-bold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700`">{{ expense.source_name }}</span></td>
+                                            <td class="px-6"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700`">{{ expense.source_name }}</span></td>
                                             <td class="px-6 py-3 text-right">{{ expense.formatted_date }}</td>
-                                            <td class="px-6 text-right whitespace-nowrap">
-                                                <span class="text-gray-400 text-xs">R$</span> {{ expense.formatted_cost }}
+                                            <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
+                                                <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
                                             </td>
-                                            <td class="px-6"><span :class="`px-3 py-1 rounded font-bold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span></td>
+                                            <td class="px-6"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span></td>
                                             <td class="px-6">{{ expense.description }}</td>
                                             <td class="px-6">{{ expense.observation }}</td>
                                             <td class="text-gray-200 hover:text-red-500 cursor-pointer" @click="deleteItem(expense.id)">
