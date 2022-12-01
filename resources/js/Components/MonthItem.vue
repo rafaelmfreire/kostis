@@ -15,5 +15,5 @@ function isCurrentMonth(refMonth) {
 }
 </script>
 <template>
-        <button :class="{ 'bg-indigo-300 border-2 border-indigo-700 font-bold text-indigo-700': isCurrentMonth(refMonth) }" @click="addMonth(props.refMonth)">{{ getMonth(props.refMonth) }}</button>
+        <button :class="{ 'bg-indigo-800 border-2 border-indigo-800 font-bold text-white': isCurrentMonth(refMonth) }" @click="addMonth(props.refMonth)">{{ getMonth(props.refMonth) }}</button>
 </template>
