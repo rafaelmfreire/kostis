@@ -62,15 +62,16 @@ class AddExpensesTest extends TestCase
             'category_id' => $category->id
         ]);
 
-        tap(Expense::first(), function ($expense) use ($response, $user) {
+        tap(Expense::first(), function ($expense) use ($response, $user, $category) {
             $response->assertRedirect('/expenses');
 
-            $this->assertTrue($expense->user->is($user));
+            $this->assertTrue($expense->fresh()->user->is($user));
 
-            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->date);
-            $this->assertEquals(112500, $expense->cost);
-            $this->assertEquals('Example', $expense->description);
-            $this->assertEquals('some observation', $expense->observation);
+            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->fresh()->date);
+            $this->assertEquals(112500, $expense->fresh()->cost);
+            $this->assertEquals('Example', $expense->fresh()->description);
+            $this->assertEquals('some observation', $expense->fresh()->observation);
+            $this->assertEquals($category->name, $expense->fresh()->category->name);
         });
     }
 
@@ -182,6 +183,21 @@ class AddExpensesTest extends TestCase
 
             $this->assertNull($expense->observation);
         });
+    }
+
+    /** @test */
+    public function category_is_required()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'category_id' => null
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('category_id');
+        $this->assertEquals(0, Expense::count());
     }
 
     // TODO: user_can_add_an_expense_and_be_redirected_to_form_again
