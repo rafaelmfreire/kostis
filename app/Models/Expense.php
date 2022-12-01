@@ -38,12 +38,18 @@ class Expense extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function source()
+    {
+        return $this->belongsTo(Source::class);
+    }
+
     public function toArray()
     {
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
             'category_id' => $this->category_id,
+            'source_id' => $this->source_id,
             'date' => $this->date->toISOString(),
             'formatted_date' => $this->formatted_date,
             'cost' => $this->cost,
@@ -52,6 +58,8 @@ class Expense extends Model
             'observation' => $this->observation,
             'category_name' => $this->category->name,
             'category_color' => $this->category->color,
+            'source_name' => $this->source->name,
+            'source_color' => $this->source->color,
         ];
     }
 }

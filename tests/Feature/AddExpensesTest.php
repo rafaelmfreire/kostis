@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Source;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -53,16 +54,18 @@ class AddExpensesTest extends TestCase
 
         $user = User::factory()->create();
         $category = Category::factory()->create();
+        $source = Source::factory()->create();
 
         $response = $this->actingAs($user)->post('/expenses', [
             'date' => '2022-11-18',
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
-            'category_id' => $category->id
+            'category_id' => $category->id,
+            'source_id' => $source->id
         ]);
 
-        tap(Expense::first(), function ($expense) use ($response, $user, $category) {
+        tap(Expense::first(), function ($expense) use ($response, $user, $category, $source) {
             $response->assertRedirect('/expenses');
 
             $this->assertTrue($expense->fresh()->user->is($user));
@@ -72,6 +75,7 @@ class AddExpensesTest extends TestCase
             $this->assertEquals('Example', $expense->fresh()->description);
             $this->assertEquals('some observation', $expense->fresh()->observation);
             $this->assertEquals($category->name, $expense->fresh()->category->name);
+            $this->assertEquals($source->name, $expense->fresh()->source->name);
         });
     }
 
@@ -170,10 +174,12 @@ class AddExpensesTest extends TestCase
         // TODO: refactor to "hide" the setup of category since
         // it's not an essential part of this test
         $category = Category::factory()->create();
+        $source = Source::factory()->create();
 
         $response = $this->actingAs($user)->post('/expenses', $this->validParams([
             'observation' => '',
-            'category_id' => $category->id
+            'category_id' => $category->id,
+            'source_id' => $source->id,
         ]));
 
         tap(Expense::first(), function ($expense) use ($response, $user) {
@@ -197,6 +203,21 @@ class AddExpensesTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/expenses/create');
         $response->assertSessionHasErrors('category_id');
+        $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function source_is_required()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'source_id' => null
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('source_id');
         $this->assertEquals(0, Expense::count());
     }
 

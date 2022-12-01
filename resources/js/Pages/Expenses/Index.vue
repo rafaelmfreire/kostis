@@ -66,6 +66,7 @@ function reload(month) {
                                 <table class="min-w-full">
                                     <thead class="bg-gray-200">
                                         <tr class="border-b border-gray-300">
+                                            <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Source</th>
                                             <th class="px-6 py-3 text-right w-1 uppercase text-xs tracking-wider font-bold">Date</th>
                                             <th class="px-6 text-right w-1 uppercase text-xs tracking-wider font-bold">Cost</th>
                                             <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Category</th>
@@ -76,6 +77,7 @@ function reload(month) {
                                     </thead>
                                     <tbody class="divide-y divide-gray-200">
                                         <tr v-for="expense in expenses" :key="expense.id" class="uppercase text-sm even:bg-gray-50">
+                                            <td class="px-6"><span :class="`px-3 py-1 rounded font-bold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700`">{{ expense.source_name }}</span></td>
                                             <td class="px-6 py-3 text-right">{{ expense.formatted_date }}</td>
                                             <td class="px-6 text-right whitespace-nowrap">
                                                 <span class="text-gray-400 text-xs">R$</span> {{ expense.formatted_cost }}

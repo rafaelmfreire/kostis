@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Source;
 use App\Models\Expense;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class ExpenseController extends Controller
         $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
         $start_date = new Carbon($month.'-01');
 
-        $expenses = Expense::with('category')->where(
+        $expenses = Expense::with(['category', 'source'])->where(
             'user_id', Auth::user()->id
         )->where(
             'date', '>=', $start_date->format('Y-m-d')
@@ -28,6 +29,7 @@ class ExpenseController extends Controller
                 'id' => $expense->id,
                 'user_id' => $expense->user_id,
                 'category_id' => $expense->category_id,
+                'source_id' => $expense->source_id,
                 'cost' => $expense->cost,
                 'formatted_cost' => $expense->formatted_cost,
                 'date' => $expense->date,
@@ -36,6 +38,8 @@ class ExpenseController extends Controller
                 'observation' => $expense->observation,
                 'category_name' => $expense->category->name,
                 'category_color' => $expense->category->color,
+                'source_name' => $expense->source->name,
+                'source_color' => $expense->source->color,
             ];
         });
 
@@ -45,7 +49,8 @@ class ExpenseController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return Inertia::render('Expenses/Create', ['categories' => $categories]);
+        $sources = Source::all();
+        return Inertia::render('Expenses/Create', ['categories' => $categories, 'sources' => $sources]);
     }
 
     public function store()
@@ -54,12 +59,14 @@ class ExpenseController extends Controller
             'date' => ['required', 'date'],
             'cost' => ['required', 'numeric'],
             'description' => ['required'],
-            'category_id' => ['required', 'exists:categories,id']
+            'category_id' => ['required', 'exists:categories,id'],
+            'source_id' => ['required', 'exists:sources,id']
         ]);
 
         Auth::user()->expenses()->create([
             'user_id' => Auth::user()->id,
             'category_id' => request('category_id'),
+            'source_id' => request('source_id'),
             'date' => Carbon::parse(request('date')),
             'cost' => request('cost') * 100,
             'description' => request('description'),

@@ -6,6 +6,7 @@ import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
     categories: Object,
+    sources: Object,
     errors: Object,
 });
 
@@ -42,7 +43,7 @@ function submit(addNew) {
                             <form action="#" method="POST">
                                 <div class="overflow-hidden sm:rounded-md" >
                                     <div class="bg-white px-4 py-5 sm:p-6">
-                                        <div class="grid grid-cols-6 gap-6">
+                                        <div class="grid grid-cols-8 gap-6">
                                             <div class="col-span-6 sm:col-span-2" >
                                                 <label for="cost" class="block text-sm font-medium text-gray-700" >Cost</label >
                                                 <input @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
@@ -63,13 +64,21 @@ function submit(addNew) {
                                                 <small class="text-red-500" v-if="errors.category_id">{{ errors.category_id }}</small>
                                             </div>
 
-                                            <div class="col-span-6 sm:col-span-6" >
+                                            <div class="col-span-6 sm:col-span-2" >
+                                                <label for="source" class="block text-sm font-medium text-gray-700" >Source</label >
+                                                <select v-model="form.source_id" @change="errors.source_id = null" :class="{ 'border-red-400' : errors.source_id }" class="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm">
+                                                    <option :value="source.id" v-for="source in sources" :key="source">{{ source.name }}</option>
+                                                </select>
+                                                <small class="text-red-500" v-if="errors.source_id">{{ errors.source_id }}</small>
+                                            </div>
+
+                                            <div class="col-span-8 sm:col-span-8" >
                                                 <label for="description" class="block text-sm font-medium text-gray-700" >Description</label >
                                                 <input @keydown="errors.description = null" v-model="form.description" type="text" name="description" id="description" :class="{ 'border-red-400' : errors.description }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.description">{{ errors.description }}</small>
                                             </div>
 
-                                            <div class="col-span-6">
+                                            <div class="col-span-8">
                                                 <label for="observation" class="block text-sm font-medium text-gray-700" >Observation</label >
                                                 <input @keydown="errors.observation = null" v-model="form.observation" type="text" name="observation" id="observation" :class="{ 'border-red-400' : errors.observation }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.observation">{{ errors.observation }}</small>

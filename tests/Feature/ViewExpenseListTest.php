@@ -6,6 +6,7 @@ namespace Tests\Feature;
 
 use App\Models\Category;
 use App\Models\Expense;
+use App\Models\Source;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -34,13 +35,15 @@ class ViewExpenseListTest extends TestCase
         $otherUser = User::factory()->create();
 
         $category = Category::factory()->create();
+        $source = Source::factory()->create();
 
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'category_id' => $category->id,
+            'source_id' => $source->id,
         ]);
-        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id, 'category_id' => $category->id]);
-        $expenseC = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id]);
+        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id, 'category_id' => $category->id, 'source_id' => $source->id]);
+        $expenseC = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id, 'source_id' => $source->id]);
 
         //Act
         $response = $this->actingAs($user)->get('/expenses');
@@ -58,6 +61,8 @@ class ViewExpenseListTest extends TestCase
                 ->has('user_id')
                 ->has('category_name')
                 ->has('category_color')
+                ->has('source_name')
+                ->has('source_color')
                 ->etc()
             )
             ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
