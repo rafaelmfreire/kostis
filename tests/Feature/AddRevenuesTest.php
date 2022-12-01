@@ -65,12 +65,12 @@ class AddRevenuesTest extends TestCase
         tap(Revenue::first(), function ($revenue) use ($response, $user) {
             $response->assertRedirect('/revenues');
 
-            $this->assertTrue($revenue->user->is($user));
+            $this->assertTrue($revenue->fresh()->user->is($user));
 
-            $this->assertEquals(Carbon::parse('2022-11-18'), $revenue->date);
-            $this->assertEquals(112500, $revenue->income);
-            $this->assertEquals('Example', $revenue->description);
-            $this->assertEquals('some observation', $revenue->observation);
+            $this->assertEquals(Carbon::parse('2022-11-18'), $revenue->fresh()->date);
+            $this->assertEquals(112500, $revenue->fresh()->income);
+            $this->assertEquals('Example', $revenue->fresh()->description);
+            $this->assertEquals('some observation', $revenue->fresh()->observation);
         });
     }
 
