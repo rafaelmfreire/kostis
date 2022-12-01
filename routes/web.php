@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\SourceController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -51,6 +52,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('', 'store')->name('categories.store');
         Route::get('', 'index')->name('categories.index');
         Route::delete('/{category}', 'delete');
+    });
+
+    Route::prefix('sources')->controller(SourceController::class)->group(function () {
+        Route::get('/create', 'create');
+        Route::post('', 'store')->name('sources.store');
+        Route::get('', 'index')->name('sources.index');
+        Route::delete('/{source}', 'delete');
     });
 });
 

@@ -39,6 +39,9 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink :href="route('categories.index')" :active="$page.component.startsWith('Categories')">
                                     Categories
                                 </NavLink>
+                                <NavLink :href="route('sources.index')" :active="$page.component.startsWith('Sources')">
+                                    Sources
+                                </NavLink>
                             </div>
                         </div>
 
@@ -93,6 +96,9 @@ const showingNavigationDropdown = ref(false);
                         </ResponsiveNavLink>
                         <ResponsiveNavLink :href="route('categories.index')" :active="$page.component.startsWith('Categories')">
                             Categories
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('sources.index')" :active="$page.component.startsWith('Sources')">
+                            Sources
                         </ResponsiveNavLink>
                     </div>
 
