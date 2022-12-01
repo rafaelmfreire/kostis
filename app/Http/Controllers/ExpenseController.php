@@ -51,7 +51,7 @@ class ExpenseController extends Controller
                 'total_cost' => number_format($expenses->sum('cost')/100, 2, ',', '.'),
                 'most_expensive' => number_format($expenses->max('cost')/100, 2, ',', '.'),
                 'expenses_quantity' => $expenses->count(),
-                'average' => number_format(($expenses->sum('cost')/$expenses->count())/100, 2, ',', '.')
+                'average' => number_format(($expenses->sum('cost')/($expenses->count() == 0 ? 1 : $expenses->count()))/100, 2, ',', '.')
             ]
         ]);
     }
