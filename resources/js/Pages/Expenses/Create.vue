@@ -12,7 +12,7 @@ const props = defineProps({
 
 const form = reactive({
   cost: null,
-  date: (new Date().getFullYear()+'-'+(new Date().getMonth() + 1).toString().padStart(2, '0')+'-'+new Date().getDate()),
+  date: (new Date().getFullYear()+'-'+(new Date().getMonth() + 1).toString().padStart(2, '0')+'-'+(new Date().getDate()).toString().padStart(2, '0')),
   description: null,
   observation: null,
 });
