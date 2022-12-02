@@ -1,6 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import MonthList from "@/Components/MonthList.vue";
+import MonthFilter from "@/Components/MonthFilter.vue";
 import MonthItem from "@/Components/MonthItem.vue";
 import ButtonLink from "@/Components/ButtonLink.vue";
 import { Head } from '@inertiajs/inertia-vue3';
@@ -21,12 +22,12 @@ function deleteItem(id) {
     })
 }
 
-function reload(month) {
-    Inertia.visit('/expenses?month='+month.date.getFullYear()+'-'+(month.date.getMonth()+1).toString().padStart(2, '0'), {
-        only: ['expenses', 'stats'],
-        preserveState: true
-    })
-}
+// function reload(month) {
+//     Inertia.visit('/expenses?month='+month.date.getFullYear()+'-'+(month.date.getMonth()+1).toString().padStart(2, '0'), {
+//         only: ['expenses', 'stats'],
+//         preserveState: true
+//     })
+// }
 </script>
 
 <template>
@@ -65,7 +66,7 @@ function reload(month) {
                     </div>
                 </div>
 
-                <month-list class="flex justify-between mb-8" @on-month-changed="reload">
+                <!-- <month-list class="flex justify-between mb-8" @on-month-changed="reload">
                     <month-item :refMonth="-5" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
                     <month-item :refMonth="-4" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
                     <month-item :refMonth="-3" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
@@ -77,7 +78,8 @@ function reload(month) {
                     <month-item :refMonth="3" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
                     <month-item :refMonth="4" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
                     <month-item :refMonth="5" class="px-3 py-1 bg-slate-200 hover:bg-indigo-700 rounded-md tabular-nums"></month-item>
-                </month-list>
+                </month-list> -->
+                <month-filter></month-filter>
 
                 <div class="overflow-hidden border border-slate-400 sm:rounded-lg">
                     <table class="min-w-full">

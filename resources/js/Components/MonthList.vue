@@ -9,7 +9,7 @@ const currentDate = ref({
 })
 
 function addMonth(add) {
-    this.currentDate.date = new Date(this.currentDate.date.getFullYear(), this.currentDate.date.getMonth()+add, 1)
+    this.currentDate.date = new Date(this.currentDate.date.getFullYear(), add, 1)
 
     emit('onMonthChanged', this.currentDate)
 }
