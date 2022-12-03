@@ -22,7 +22,7 @@ class ExpenseTest extends TestCase
         $expense = Expense::factory()->make([
             'user_id' => $user->id,
             'bought_at' => Carbon::parse('2022-11-18'),
-            'category_id' => $category->id
+            'category_id' => $category->id,
         ]);
 
         $bought_at = $expense->formatted_bought_at;
@@ -39,7 +39,7 @@ class ExpenseTest extends TestCase
         $expense = Expense::factory()->make([
             'user_id' => $user->id,
             'paid_at' => Carbon::parse('2022-11-18'),
-            'category_id' => $category->id
+            'category_id' => $category->id,
         ]);
 
         $paid_at = $expense->formatted_paid_at;
@@ -56,7 +56,7 @@ class ExpenseTest extends TestCase
         $expense = Expense::factory()->make([
             'user_id' => $user->id,
             'cost' => 112500,
-            'category_id' => $category->id
+            'category_id' => $category->id,
         ]);
 
         $cost = $expense->formatted_cost;

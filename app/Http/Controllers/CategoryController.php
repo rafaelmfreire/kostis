@@ -11,6 +11,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return Inertia::render('Categories/Index', ['categories' => $categories]);
     }
 
@@ -42,9 +43,9 @@ class CategoryController extends Controller
                     'purple',
                     'fuchsia',
                     'pink',
-                    'rose'
-                ])
-            ]
+                    'rose',
+                ]),
+            ],
         ]);
 
         Category::create([

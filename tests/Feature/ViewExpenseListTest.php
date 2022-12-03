@@ -10,7 +10,6 @@ use App\Models\Source;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Testing\Fluent\AssertableJson;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -67,7 +66,7 @@ class ViewExpenseListTest extends TestCase
                 ->etc()
             )
             ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
-                return 
+                return
                     collect($value[0])->diff($expenseA->toArray())->count() == 0 &&
                     collect($value[1])->diff($expenseC->toArray())->count() == 0 &&
                     collect($value[0])->diff($expenseB->toArray())->count() > 0 &&
@@ -121,19 +120,19 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1200',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
         ]);
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -147,7 +146,6 @@ class ViewExpenseListTest extends TestCase
         );
     }
 
-
     /** @test */
     public function user_can_view_the_most_expensive_expense_by_month()
     {
@@ -156,19 +154,19 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '4500',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
         ]);
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -190,19 +188,19 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1000',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
         ]);
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -224,19 +222,19 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1000',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
         ]);
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d'),
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));

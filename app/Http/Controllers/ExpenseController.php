@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Source;
 use App\Models\Expense;
+use App\Models\Source;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Auth;
@@ -48,13 +48,13 @@ class ExpenseController extends Controller
         });
 
         return inertia('Expenses/Index', [
-            'expenses' => $expenses, 
+            'expenses' => $expenses,
             'stats' => [
-                'total_cost' => number_format($expenses->sum('cost')/100, 2, ',', '.'),
-                'most_expensive' => number_format($expenses->max('cost')/100, 2, ',', '.'),
+                'total_cost' => number_format($expenses->sum('cost') / 100, 2, ',', '.'),
+                'most_expensive' => number_format($expenses->max('cost') / 100, 2, ',', '.'),
                 'expenses_quantity' => $expenses->count(),
-                'average' => number_format(($expenses->sum('cost')/($expenses->count() == 0 ? 1 : $expenses->count()))/100, 2, ',', '.')
-            ]
+                'average' => number_format(($expenses->sum('cost') / ($expenses->count() == 0 ? 1 : $expenses->count())) / 100, 2, ',', '.'),
+            ],
         ]);
     }
 
@@ -62,6 +62,7 @@ class ExpenseController extends Controller
     {
         $categories = Category::all();
         $sources = Source::all();
+
         return Inertia::render('Expenses/Create', ['categories' => $categories, 'sources' => $sources]);
     }
 
@@ -73,7 +74,7 @@ class ExpenseController extends Controller
             'cost' => ['required', 'numeric'],
             'description' => ['required'],
             'category_id' => ['required', 'exists:categories,id'],
-            'source_id' => ['required', 'exists:sources,id']
+            'source_id' => ['required', 'exists:sources,id'],
         ]);
 
         Auth::user()->expenses()->create([

@@ -64,7 +64,7 @@ class AddExpensesTest extends TestCase
             'description' => 'Example',
             'observation' => 'some observation',
             'category_id' => $category->id,
-            'source_id' => $source->id
+            'source_id' => $source->id,
         ]);
 
         tap(Expense::first(), function ($expense) use ($response, $user, $category, $source) {
@@ -230,7 +230,7 @@ class AddExpensesTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
-            'category_id' => null
+            'category_id' => null,
         ]));
 
         $response->assertStatus(302);
@@ -245,7 +245,7 @@ class AddExpensesTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
-            'source_id' => null
+            'source_id' => null,
         ]));
 
         $response->assertStatus(302);

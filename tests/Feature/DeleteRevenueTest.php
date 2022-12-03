@@ -22,7 +22,7 @@ class DeleteRevenueTest extends TestCase
         ]);
 
         $this->assertEquals(1, Revenue::count());
-        
+
         $month = $revenue->date->format('Y-m');
 
         $month = $revenue->date->format('Y-m');

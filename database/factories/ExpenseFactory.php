@@ -30,7 +30,7 @@ class ExpenseFactory extends Factory
             },
             'source_id' => function () {
                 return Source::factory()->create()->id;
-            }
+            },
         ];
     }
 }

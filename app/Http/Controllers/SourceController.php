@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Source;
-use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -12,6 +11,7 @@ class SourceController extends Controller
     public function index()
     {
         $sources = Source::all();
+
         return Inertia::render('Sources/Index', ['sources' => $sources]);
     }
 
@@ -43,9 +43,9 @@ class SourceController extends Controller
                     'purple',
                     'fuchsia',
                     'pink',
-                    'rose'
-                ])
-            ]
+                    'rose',
+                ]),
+            ],
         ]);
 
         Source::create([
