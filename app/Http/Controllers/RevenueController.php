@@ -24,7 +24,15 @@ class RevenueController extends Controller
             'date', 'desc'
         )->get();
 
-        return Inertia::render('Revenues/Index', ['revenues' => $revenues]);
+        return Inertia::render('Revenues/Index', [
+            'revenues' => $revenues,
+            'stats' => [
+                'total_income' => number_format($revenues->sum('income') / 100, 2, ',', '.'),
+                'most_valuable' => number_format($revenues->max('income') / 100, 2, ',', '.'),
+                'revenues_quantity' => $revenues->count(),
+                'average' => number_format(($revenues->sum('income') / ($revenues->count() == 0 ? 1 : $revenues->count())) / 100, 2, ',', '.'),
+            ],
+        ]);
     }
 
     public function create()

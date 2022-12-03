@@ -7,6 +7,7 @@ import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     revenues: Object,
+    stats: Object,
 })
 
 function deleteItem(id) {
@@ -37,6 +38,25 @@ function deleteItem(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+                <div class="flex items-center w-full divide-x overflow-hidden rounded-md mb-8 drop-shadow">
+                    <div class="bg-white rounded-l-md p-8 w-1/4">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Total Earn</h2>
+                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.total_income }}</p>
+                    </div>
+                    <div class="bg-white p-8 w-1/4">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Most Valuable</h2>
+                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.most_valuable }}</p>
+                    </div>
+                    <div class="bg-white p-8 w-1/4">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Average</h2>
+                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.average }}</p>
+                    </div>
+                    <div class="bg-white rounded-r-md p-8 w-1/4">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Quantity of Revenues</h2>
+                        <p class="text-4xl font-semibold text-slate-800">{{ stats.revenues_quantity }}</p>
+                    </div>
+                </div>
+
                 <month-filter model="revenues"></month-filter>
 
                 <div class="overflow-hidden border border-slate-400 sm:rounded-lg">
@@ -66,6 +86,15 @@ function deleteItem(id) {
                                         </svg>
                                     </span>
                                 </td>
+                            </tr>
+                            <tr class="uppercase text-sm bg-slate-300">
+                                <td class="px-6 py-3 text-right">Total:</td>
+                                <td class="px-6 text-right whitespace-nowrap font-mono text-lg font-semibold text-slate-900">
+                                    <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ stats.total_income }}
+                                </td>
+                                <td class="p-6"></td>
+                                <td class="px-6"></td>
+                                <td class=""></td>
                             </tr>
                         </tbody>
                     </table>
