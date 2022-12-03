@@ -1,7 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import MonthList from "@/Components/MonthList.vue";
-import MonthItem from "@/Components/MonthItem.vue";
+import MonthFilter from "@/Components/MonthFilter.vue";
 import ButtonLink from "@/Components/ButtonLink.vue";
 import { Head } from '@inertiajs/inertia-vue3';
 import { Inertia } from "@inertiajs/inertia";
@@ -17,13 +16,6 @@ function deleteItem(id) {
 
     Inertia.delete(`/revenues/${id}`, {
         preserveState: true,
-    })
-}
-
-function reload(month) {
-    Inertia.visit('/revenues?month='+month.date.getFullYear()+'-'+(month.date.getMonth()+1).toString().padStart(2, '0'), {
-        only: ['revenues'],
-        preserveState: true
     })
 }
 </script>
@@ -45,19 +37,7 @@ function reload(month) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <month-list class="flex justify-between mb-8" @on-month-changed="reload">
-                    <month-item :refMonth="-5" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="-4" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="-3" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="-2" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="-1" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="0" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="1" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="2" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="3" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="4" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                    <month-item :refMonth="5" class="px-3 py-1 bg-gray-200 hover:bg-gray-50 rounded-md tabular-nums"></month-item>
-                </month-list>
+                <month-filter model="revenues"></month-filter>
 
                 <div class="overflow-hidden border border-slate-400 sm:rounded-lg">
                     <table class="min-w-full">
