@@ -18,7 +18,8 @@ class AddExpensesTest extends TestCase
     private function validParams($overrides = [])
     {
         return array_merge([
-            'date' => '2022-11-18',
+            'bought_at' => '2022-11-18',
+            'paid_at' => '2022-12-01',
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
@@ -57,7 +58,8 @@ class AddExpensesTest extends TestCase
         $source = Source::factory()->create();
 
         $response = $this->actingAs($user)->post('/expenses', [
-            'date' => '2022-11-18',
+            'bought_at' => '2022-11-18',
+            'paid_at' => '2022-12-01',
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
@@ -70,7 +72,8 @@ class AddExpensesTest extends TestCase
 
             $this->assertTrue($expense->fresh()->user->is($user));
 
-            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->fresh()->date);
+            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->fresh()->bought_at);
+            $this->assertEquals(Carbon::parse('2022-12-01'), $expense->fresh()->paid_at);
             $this->assertEquals(112500, $expense->fresh()->cost);
             $this->assertEquals('Example', $expense->fresh()->description);
             $this->assertEquals('some observation', $expense->fresh()->observation);
@@ -90,32 +93,62 @@ class AddExpensesTest extends TestCase
     }
 
     /** @test */
-    public function date_is_required()
+    public function bought_at_is_required()
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
-            'date' => '',
+            'bought_at' => '',
         ]));
 
         $response->assertStatus(302);
         $response->assertRedirect('/expenses/create');
-        $response->assertSessionHasErrors('date');
+        $response->assertSessionHasErrors('bought_at');
         $this->assertEquals(0, Expense::count());
     }
 
     /** @test */
-    public function date_must_be_a_valid_date()
+    public function bought_at_must_be_a_valid_date()
     {
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
-            'date' => 'not-a-date',
+            'bought_at' => 'not-a-date',
         ]));
 
         $response->assertStatus(302);
         $response->assertRedirect('/expenses/create');
-        $response->assertSessionHasErrors('date');
+        $response->assertSessionHasErrors('bought_at');
+        $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function paid_at_is_required()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'paid_at' => '',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('paid_at');
+        $this->assertEquals(0, Expense::count());
+    }
+
+    /** @test */
+    public function paid_at_must_be_a_valid_date()
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->from('/expenses/create')->post('/expenses', $this->validParams([
+            'paid_at' => 'not-a-date',
+        ]));
+
+        $response->assertStatus(302);
+        $response->assertRedirect('/expenses/create');
+        $response->assertSessionHasErrors('paid_at');
         $this->assertEquals(0, Expense::count());
     }
 

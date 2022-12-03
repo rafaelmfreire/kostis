@@ -10,14 +10,21 @@ class Expense extends Model
 {
     use HasFactory;
 
-    protected $dates = ['date', 'formatted_date'];
+    protected $dates = ['bought_at', 'paid_at', 'formatted_bought_at', 'formatted_paid_at'];
 
-    protected $appends = ['formatted_date', 'formatted_cost'];
+    protected $appends = ['formatted_bought_at', 'formatted_paid_at', 'formatted_cost'];
 
-    public function formattedDate(): Attribute
+    public function formattedBoughtAt(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->date->format('d/m/Y'),
+            get: fn () => $this->bought_at->format('d/m/Y'),
+        );
+    }
+
+    public function formattedPaidAt(): Attribute
+    {
+        return new Attribute(
+            get: fn () => $this->paid_at->format('d/m/Y'),
         );
     }
 
@@ -50,8 +57,10 @@ class Expense extends Model
             'user_id' => $this->user_id,
             'category_id' => $this->category_id,
             'source_id' => $this->source_id,
-            'date' => $this->date->toISOString(),
-            'formatted_date' => $this->formatted_date,
+            'bought_at' => $this->bought_at->toISOString(),
+            'formatted_bought_at' => $this->formatted_bought_at,
+            'paid_at' => $this->paid_at->toISOString(),
+            'formatted_paid_at' => $this->formatted_paid_at,
             'cost' => $this->cost,
             'formatted_cost' => $this->formatted_cost,
             'description' => $this->description,

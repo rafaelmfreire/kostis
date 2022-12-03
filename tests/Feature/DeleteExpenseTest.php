@@ -21,7 +21,7 @@ class DeleteExpenseTest extends TestCase
 
         $this->assertEquals(1, Expense::count());
 
-        $month = $expense->date->format('Y-m');
+        $month = $expense->paid_at->format('Y-m');
 
         $response = $this->actingAs($user)->delete("/expenses/{$expense->id}");
 

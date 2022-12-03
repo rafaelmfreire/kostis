@@ -64,7 +64,7 @@ function deleteItem(id) {
                         <thead class="bg-slate-200">
                             <tr class="border-b border-gray-300">
                                 <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Source</th>
-                                <th class="px-6 py-3 text-right w-1 uppercase text-xs tracking-wider font-bold">Date</th>
+                                <th class="px-6 py-3 text-right w-1 uppercase text-xs tracking-wider font-bold whitespace-nowrap">Bought At</th>
                                 <th class="px-6 text-right w-1 uppercase text-xs tracking-wider font-bold">Cost</th>
                                 <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Category</th>
                                 <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Description</th>
@@ -75,7 +75,7 @@ function deleteItem(id) {
                         <tbody class="divide-y divide-gray-200">
                             <tr v-for="expense in expenses" :key="expense.id" class="uppercase text-sm bg-white even:bg-slate-50">
                                 <td class="px-6"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700`">{{ expense.source_name }}</span></td>
-                                <td class="px-6 py-3 text-right">{{ expense.formatted_date }}</td>
+                                <td class="px-6 py-3 text-right">{{ expense.formatted_bought_at }}</td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
                                     <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
                                 </td>

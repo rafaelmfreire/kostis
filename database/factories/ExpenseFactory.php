@@ -20,7 +20,8 @@ class ExpenseFactory extends Factory
     public function definition()
     {
         return [
-            'date' => Carbon::now(),
+            'bought_at' => Carbon::now(),
+            'paid_at' => Carbon::now('+1 month')->format('Y-m-d'),
             'cost' => fake()->randomNumber(4, true),
             'description' => fake()->word(),
             'observation' => fake()->sentence(),

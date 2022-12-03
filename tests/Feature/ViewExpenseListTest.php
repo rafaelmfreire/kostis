@@ -54,7 +54,8 @@ class ViewExpenseListTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Expenses/Index')
             ->has('expenses', 2, fn (AssertableInertia $page) => $page
-                ->has('formatted_date')
+                ->has('formatted_bought_at')
+                ->has('formatted_paid_at')
                 ->has('formatted_cost')
                 ->has('description')
                 ->has('observation')
@@ -82,15 +83,15 @@ class ViewExpenseListTest extends TestCase
         $user = User::factory()->create();
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
-            'date' => Carbon::now(),
+            'paid_at' => Carbon::now(),
         ]);
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
-            'date' => Carbon::parse('+1 month'),
+            'paid_at' => Carbon::parse('+1 month'),
         ]);
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
-            'date' => Carbon::now(),
+            'paid_at' => Carbon::now(),
         ]);
 
         //Act
@@ -102,7 +103,8 @@ class ViewExpenseListTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Expenses/Index')
             ->has('expenses', 2, fn (AssertableInertia $page) => $page
-                ->has('formatted_date')
+                ->has('formatted_bought_at')
+                ->has('formatted_paid_at')
                 ->has('formatted_cost')
                 ->has('description')
                 ->has('observation')
@@ -119,13 +121,13 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1200',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -148,13 +150,13 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -176,13 +178,13 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
@@ -204,13 +206,13 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'date' => Carbon::now()->format('Y-m-d')
+            'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));

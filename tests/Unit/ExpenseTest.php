@@ -14,20 +14,37 @@ class ExpenseTest extends TestCase
     use DatabaseMigrations;
 
     /** @test */
-    public function can_get_formatted_date()
+    public function can_get_formatted_bought_at()
     {
         $user = User::factory()->make();
         $category = Category::factory()->make();
 
         $expense = Expense::factory()->make([
             'user_id' => $user->id,
-            'date' => Carbon::parse('2022-11-18'),
+            'bought_at' => Carbon::parse('2022-11-18'),
             'category_id' => $category->id
         ]);
 
-        $date = $expense->formatted_date;
+        $bought_at = $expense->formatted_bought_at;
 
-        $this->assertEquals('18/11/2022', $date);
+        $this->assertEquals('18/11/2022', $bought_at);
+    }
+
+    /** @test */
+    public function can_get_formatted_paid_at()
+    {
+        $user = User::factory()->make();
+        $category = Category::factory()->make();
+
+        $expense = Expense::factory()->make([
+            'user_id' => $user->id,
+            'paid_at' => Carbon::parse('2022-11-18'),
+            'category_id' => $category->id
+        ]);
+
+        $paid_at = $expense->formatted_paid_at;
+
+        $this->assertEquals('18/11/2022', $paid_at);
     }
 
     /** @test */

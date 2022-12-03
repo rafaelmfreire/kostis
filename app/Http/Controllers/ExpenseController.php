@@ -21,11 +21,11 @@ class ExpenseController extends Controller
         $expenses = Expense::with(['category', 'source'])->where(
             'user_id', Auth::user()->id
         )->where(
-            'date', '>=', $start_date->format('Y-m-d')
+            'paid_at', '>=', $start_date->format('Y-m-d')
         )->where(
-            'date', '<', $end_date
+            'paid_at', '<', $end_date
         )->orderBy(
-            'date', 'desc'
+            'bought_at', 'desc'
         )->get()->map(function ($expense) {
             return [
                 'id' => $expense->id,
@@ -34,8 +34,10 @@ class ExpenseController extends Controller
                 'source_id' => $expense->source_id,
                 'cost' => $expense->cost,
                 'formatted_cost' => $expense->formatted_cost,
-                'date' => $expense->date,
-                'formatted_date' => $expense->formatted_date,
+                'bought_at' => $expense->bought_at,
+                'formatted_bought_at' => $expense->formatted_bought_at,
+                'paid_at' => $expense->paid_at,
+                'formatted_paid_at' => $expense->formatted_paid_at,
                 'description' => $expense->description,
                 'observation' => $expense->observation,
                 'category_name' => $expense->category->name,
@@ -66,7 +68,8 @@ class ExpenseController extends Controller
     public function store()
     {
         $this->validate(request(), [
-            'date' => ['required', 'date'],
+            'bought_at' => ['required', 'date'],
+            'paid_at' => ['required', 'date'],
             'cost' => ['required', 'numeric'],
             'description' => ['required'],
             'category_id' => ['required', 'exists:categories,id'],
@@ -77,7 +80,8 @@ class ExpenseController extends Controller
             'user_id' => Auth::user()->id,
             'category_id' => request('category_id'),
             'source_id' => request('source_id'),
-            'date' => Carbon::parse(request('date')),
+            'bought_at' => Carbon::parse(request('bought_at')),
+            'paid_at' => Carbon::parse(request('paid_at')),
             'cost' => request('cost') * 100,
             'description' => request('description'),
             'observation' => request('observation'),
@@ -94,7 +98,7 @@ class ExpenseController extends Controller
     {
         $expense = Auth::user()->expenses()->findOrFail($expense->id);
 
-        $month = $expense->date->format('Y-m');
+        $month = $expense->paid_at->format('Y-m');
 
         $expense->delete();
 
