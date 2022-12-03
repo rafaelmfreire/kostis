@@ -127,6 +127,12 @@ class ViewExpenseListTest extends TestCase
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+        ]);
+
+        $expenseC = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '2500',
             'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
 
@@ -154,6 +160,12 @@ class ViewExpenseListTest extends TestCase
         ]);
 
         $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '4500',
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+        ]);
+
+        $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
             'paid_at' => Carbon::now()->format('Y-m-d')
@@ -183,6 +195,12 @@ class ViewExpenseListTest extends TestCase
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
+            'cost' => '1000',
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+        ]);
+
+        $expenseC = Expense::factory()->create([
+            'user_id' => $user->id,
             'cost' => '2500',
             'paid_at' => Carbon::now()->format('Y-m-d')
         ]);
@@ -210,6 +228,12 @@ class ViewExpenseListTest extends TestCase
         ]);
 
         $expenseB = Expense::factory()->create([
+            'user_id' => $user->id,
+            'cost' => '1000',
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d')
+        ]);
+
+        $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
             'paid_at' => Carbon::now()->format('Y-m-d')
