@@ -76,7 +76,7 @@ function deleteItem(id) {
                             <tr v-for="expense in expenses" :key="expense.id" class="uppercase text-sm bg-white even:bg-slate-50">
                                 <td class="px-6"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span></td>
                                 <td class="px-6 py-3 text-right tabular-nums">{{ expense.formatted_bought_at }}</td>
-                                <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
+                                <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-600">
                                     <span class="text-gray-300 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
                                 </td>
                                 <td class="px-6"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span></td>
