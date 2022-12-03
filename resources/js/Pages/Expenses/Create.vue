@@ -51,19 +51,19 @@ onMounted(() => {
                                         <div class="grid grid-cols-10 gap-6">
                                             <div class="col-span-6 sm:col-span-2" >
                                                 <label for="cost" class="block text-sm font-medium text-gray-700" >Cost</label >
-                                                <input @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                                <input @keypress.enter="submit(true)" @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.cost">{{ errors.cost }}</small>
                                             </div>
 
                                             <div class="col-span-6 sm:col-span-2" >
                                                 <label for="date" class="block text-sm font-medium text-gray-700" >Bought At</label >
-                                                <input @keydown="errors.bought_at = null" v-model="form.bought_at" type="date" name="bought_at" id="bought_at" :class="{ 'border-red-400' : errors.bought_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                                <input @keypress.enter="submit(true)" @keydown="errors.bought_at = null" v-model="form.bought_at" type="date" name="bought_at" id="bought_at" :class="{ 'border-red-400' : errors.bought_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.bought_at">{{ errors.bought_at }}</small>
                                             </div>
 
                                             <div class="col-span-6 sm:col-span-2" >
                                                 <label for="date" class="block text-sm font-medium text-gray-700" >Paid At</label >
-                                                <input @keydown="errors.paid_at = null" v-model="form.paid_at" type="date" name="paid_at" id="paid_at" :class="{ 'border-red-400' : errors.paid_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                                <input @keypress.enter="submit(true)" @keydown="errors.paid_at = null" v-model="form.paid_at" type="date" name="paid_at" id="paid_at" :class="{ 'border-red-400' : errors.paid_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.paid_at">{{ errors.paid_at }}</small>
                                             </div>
 
@@ -85,13 +85,13 @@ onMounted(() => {
 
                                             <div class="col-span-10" >
                                                 <label for="description" class="block text-sm font-medium text-gray-700" >Description</label >
-                                                <input @keydown="errors.description = null" v-model="form.description" type="text" name="description" id="description" :class="{ 'border-red-400' : errors.description }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                                <input @keypress.enter="submit(true)" @keydown="errors.description = null" v-model="form.description" type="text" name="description" id="description" :class="{ 'border-red-400' : errors.description }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.description">{{ errors.description }}</small>
                                             </div>
 
                                             <div class="col-span-10">
                                                 <label for="observation" class="block text-sm font-medium text-gray-700" >Observation</label >
-                                                <input @keydown="errors.observation = null" v-model="form.observation" type="text" name="observation" id="observation" :class="{ 'border-red-400' : errors.observation }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                                <input @keypress.enter="submit(true)" @keydown="errors.observation = null" v-model="form.observation" type="text" name="observation" id="observation" :class="{ 'border-red-400' : errors.observation }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                                 <small class="text-red-500" v-if="errors.observation">{{ errors.observation }}</small>
                                             </div>
                                         </div>
