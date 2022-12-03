@@ -6,10 +6,13 @@ use App\Models\Category;
 use App\Models\Expense;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class ExpenseTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /** @test */
     public function can_get_formatted_date()
     {

@@ -94,7 +94,7 @@ class ViewExpenseListTest extends TestCase
         ]);
 
         //Act
-        $response = $this->actingAs($user)->call('GET', '/expenses', ['month' => '2022-11']);
+        $response = $this->actingAs($user)->call('GET', '/expenses', ['month' => Carbon::now()->format('Y-m')]);
 
         //Assert
         $response->assertStatus(200);
