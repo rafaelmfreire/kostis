@@ -21,7 +21,7 @@ class ExpenseFactory extends Factory
     {
         return [
             'bought_at' => Carbon::now(),
-            'paid_at' => Carbon::now('+1 month')->format('Y-m-d'),
+            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
             'cost' => fake()->randomNumber(4, true),
             'description' => fake()->word(),
             'observation' => fake()->sentence(),
