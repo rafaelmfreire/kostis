@@ -12,7 +12,7 @@ class Expense extends Model
 
     protected $dates = ['bought_at', 'paid_at', 'formatted_bought_at', 'formatted_paid_at'];
 
-    protected $appends = ['formatted_bought_at', 'formatted_paid_at', 'formatted_cost'];
+    protected $appends = ['formatted_bought_at', 'formatted_paid_at', 'formatted_cost', 'cost_in_dollars'];
 
     public function formattedBoughtAt(): Attribute
     {
@@ -32,6 +32,13 @@ class Expense extends Model
     {
         return new Attribute(
             get: fn () => number_format($this->cost / 100, 2, ',', '.'),
+        );
+    }
+
+    public function costInDollars(): Attribute
+    {
+        return new Attribute(
+            get: fn () => number_format($this->cost / 100, 2, '.', ''),
         );
     }
 
@@ -63,6 +70,7 @@ class Expense extends Model
             'formatted_paid_at' => $this->formatted_paid_at,
             'cost' => $this->cost,
             'formatted_cost' => $this->formatted_cost,
+            'cost_in_dollars' => $this->cost_in_dollars,
             'description' => $this->description,
             'observation' => $this->observation,
             'category_name' => $this->category->name,
