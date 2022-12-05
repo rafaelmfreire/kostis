@@ -38,6 +38,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create')->name('expenses.create');
         Route::post('/', 'store')->name('expenses.store');
         Route::delete('/{expense}', 'delete');
+        Route::get("/{expense}/edit", 'edit');
+        Route::patch("/{expense}", 'update')->name('expenses.update');
     });
 
     Route::prefix('revenues')->controller(RevenueController::class)->group(function () {

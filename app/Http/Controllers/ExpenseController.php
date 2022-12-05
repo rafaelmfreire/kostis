@@ -17,7 +17,7 @@ class ExpenseController extends Controller
         $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
         $start_date = new CarbonImmutable($month.'-01');
         $end_date = $start_date->add('month', 1)->format('Y-m-d');
-
+  
         $expenses = Expense::with(['category', 'source'])->where(
             'user_id', Auth::user()->id
         )->where(
@@ -91,6 +91,42 @@ class ExpenseController extends Controller
         if (request('addNew')) {
             return redirect()->route('expenses.create');
         }
+
+        return redirect()->route('expenses.index');
+    }
+
+    public function edit(Expense $expense)
+    {
+        $expense = Auth::user()->expenses()->findOrFail($expense->id);
+
+        $categories = Category::all();
+        $sources = Source::all();
+
+        return Inertia::render('Expenses/Edit', ['categories' => $categories, 'sources' => $sources, 'expense' => $expense]);
+    }
+
+    public function update(Expense $expense)
+    {
+        $expense = Auth::user()->expenses()->findOrFail($expense->id);
+        
+        $this->validate(request(), [
+            'bought_at' => ['required', 'date'],
+            'paid_at' => ['required', 'date'],
+            'cost' => ['required', 'numeric'],
+            'description' => ['required'],
+            'category_id' => ['required', 'exists:categories,id'],
+            'source_id' => ['required', 'exists:sources,id'],
+        ]);
+
+        $expense->update([
+            'category_id' => request('category_id'),
+            'source_id' => request('source_id'),
+            'bought_at' => Carbon::parse(request('bought_at')),
+            'paid_at' => Carbon::parse(request('paid_at')),
+            'cost' => request('cost') * 100,
+            'description' => request('description'),
+            'observation' => request('observation'),
+        ]);
 
         return redirect()->route('expenses.index');
     }
