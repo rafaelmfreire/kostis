@@ -12,7 +12,7 @@ class Revenue extends Model
 
     protected $dates = ['date', 'formatted_date'];
 
-    protected $appends = ['formatted_date', 'formatted_income'];
+    protected $appends = ['formatted_date', 'formatted_income', 'income_in_dollars'];
 
     public function user()
     {
@@ -30,6 +30,13 @@ class Revenue extends Model
     {
         return new Attribute(
             get: fn () => number_format($this->income / 100, 2, ',', '.'),
+        );
+    }
+
+    public function incomeInDollars(): Attribute
+    {
+        return new Attribute(
+            get: fn () => number_format($this->income / 100, 2, '.', ''),
         );
     }
 }

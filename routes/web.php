@@ -47,6 +47,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create');
         Route::post('', 'store')->name('revenues.store');
         Route::delete('/{revenue}', 'delete');
+        Route::get("/{revenue}/edit", 'edit');
+        Route::patch("/{revenue}", 'update')->name('revenues.update');
     });
 
     Route::prefix('categories')->controller(CategoryController::class)->group(function () {

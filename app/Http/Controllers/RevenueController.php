@@ -59,6 +59,32 @@ class RevenueController extends Controller
         return redirect()->route('revenues.index');
     }
 
+    public function edit(Revenue $revenue)
+    {
+        $revenue = Auth::user()->revenues()->findOrFail($revenue->id);
+
+        return Inertia::render('Revenues/Edit', ['revenue' => $revenue]);
+    }
+
+    public function update(Revenue $revenue)
+    {
+
+        $this->validate(request(), [
+            'date' => ['required', 'date'],
+            'income' => ['required', 'numeric'],
+            'description' => ['required'],
+        ]);
+
+        $revenue->update([
+            'date' => Carbon::parse(request('date')),
+            'income' => request('income') * 100,
+            'description' => request('description'),
+            'observation' => request('observation'),
+        ]);
+
+        return redirect()->route('revenues.index');
+    }
+
     public function delete(Revenue $revenue)
     {
         $revenue = Auth::user()->revenues()->findOrFail($revenue->id);
