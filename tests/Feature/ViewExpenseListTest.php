@@ -61,6 +61,7 @@ class ViewExpenseListTest extends TestCase
                 ->has('source_color')
                 ->etc()
             )
+            // TODO: fix this test
         //     ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
         //         return
         //             collect($value[0])->diff($expenseA->toArray())->count() == 0 &&

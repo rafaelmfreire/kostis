@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -47,6 +48,11 @@ class Expense extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function installments()
+    {
+        return $this->hasMany(Installment::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -55,6 +61,23 @@ class Expense extends Model
     public function source()
     {
         return $this->belongsTo(Source::class);
+    }
+
+    public function addInstallments($startDate)
+    {
+        foreach (range(1, $this->installments_quantity) as $i) {
+            $this->installments()->create([
+                'expense_id' => $this->id,
+                'cost' => $this->cost / $this->installments_quantity,
+                'number' => $i,
+                'paid_at' => Carbon::parse($startDate)->addMonth($i-1),
+            ]);
+        }
+    }
+
+    public function installmentQuantity()
+    {
+        return $this->installments()->count();
     }
 
     public function toArray()

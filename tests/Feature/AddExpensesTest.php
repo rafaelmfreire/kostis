@@ -59,10 +59,11 @@ class AddExpensesTest extends TestCase
 
         $response = $this->actingAs($user)->post('/expenses', [
             'bought_at' => '2022-11-18',
-            'paid_at' => '2022-12-01',
+            'paid_at' => '2022-12',
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',
+            'installments_quantity' => 2,
             'category_id' => $category->id,
             'source_id' => $source->id,
         ]);
@@ -73,12 +74,14 @@ class AddExpensesTest extends TestCase
             $this->assertTrue($expense->fresh()->user->is($user));
 
             $this->assertEquals(Carbon::parse('2022-11-18'), $expense->fresh()->bought_at);
-            $this->assertEquals(Carbon::parse('2022-12-01'), $expense->fresh()->paid_at);
             $this->assertEquals(112500, $expense->fresh()->cost);
             $this->assertEquals('Example', $expense->fresh()->description);
             $this->assertEquals('some observation', $expense->fresh()->observation);
+            $this->assertEquals(2, $expense->fresh()->installments_quantity);
             $this->assertEquals($category->name, $expense->fresh()->category->name);
             $this->assertEquals($source->name, $expense->fresh()->source->name);
+
+            $this->assertEquals(2, $expense->fresh()->installmentQuantity());
         });
     }
 

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained();
             $table->foreignId('source_id')->constrained();
             $table->datetime('bought_at');
-            $table->datetime('paid_at');
             $table->integer('cost');
+            $table->integer('installments_quantity');
             $table->string('description');
             $table->string('observation')->nullable();
             $table->timestamps();
