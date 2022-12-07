@@ -21,8 +21,8 @@ class ExpenseFactory extends Factory
     {
         return [
             'bought_at' => Carbon::now(),
-            'paid_at' => Carbon::now(),
             'cost' => fake()->randomNumber(4, true),
+            'installments_quantity' => 1,
             'description' => fake()->word(),
             'observation' => fake()->sentence(),
             'category_id' => function () {

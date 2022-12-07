@@ -19,7 +19,8 @@ class AddExpensesTest extends TestCase
     {
         return array_merge([
             'bought_at' => '2022-11-18',
-            'paid_at' => '2022-12-01',
+            'paid_at' => '2022-12',
+            'installments_quantity' => 1,
             'cost' => '1125.00',
             'description' => 'Example',
             'observation' => 'some observation',

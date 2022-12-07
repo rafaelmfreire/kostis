@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('installments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('expense_id')->constrained();
+            $table->foreignId('expense_id')->constrained()->cascadeOnDelete();
             $table->integer('cost');
             $table->integer('number');
             $table->datetime('paid_at');

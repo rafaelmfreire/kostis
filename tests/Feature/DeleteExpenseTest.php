@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Expense;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -18,10 +19,11 @@ class DeleteExpenseTest extends TestCase
         $expense = Expense::factory()->create([
             'user_id' => $user->id,
         ]);
+        $expense->addInstallments(Carbon::now()->format('Y-m'));
 
         $this->assertEquals(1, Expense::count());
 
-        $month = $expense->paid_at->format('Y-m');
+        $month = $expense->installments()->first()->paid_at->format('Y-m');
 
         $response = $this->actingAs($user)->delete("/expenses/{$expense->id}");
 

@@ -21,7 +21,7 @@ class EditExpenseTest extends TestCase
     {
         return array_merge([
             'bought_at' => '2022-12-01',
-            'paid_at' => '2023-01-02',
+            'installments_quantity' => 1,
             'cost' => '32.50',
             'description' => 'New description',
             'observation' => 'new observation',
@@ -32,7 +32,7 @@ class EditExpenseTest extends TestCase
     {
         return array_merge([
             'bought_at' => '2022-12-01',
-            'paid_at' => '2023-01-02',
+            'installments_quantity' => 1,
             'cost' => '32.50',
             'description' => 'New description',
             'observation' => 'new observation',
@@ -114,7 +114,8 @@ class EditExpenseTest extends TestCase
         $expense = Expense::factory()->create([
             'user_id' => $user->id,
             'bought_at' => '2022-11-30',
-            'paid_at' => '2022-12-03',
+            // 'paid_at' => '2022-12-03',
+            'installments_quantity' => 1,
             'cost' => 2500,
             'description' => 'Sample description',
             'observation' => 'sample observation',
@@ -127,7 +128,8 @@ class EditExpenseTest extends TestCase
 
         $response = $this->actingAs($user)->patch("/expenses/{$expense->id}", [
             'bought_at' => '2022-12-01',
-            'paid_at' => '2023-01-02',
+            // 'paid_at' => '2023-01-02',
+            'installments_quantity' => 1,
             'cost' => '32.50',
             'description' => 'New description',
             'observation' => 'new observation',
@@ -138,7 +140,8 @@ class EditExpenseTest extends TestCase
         $response->assertRedirect('/expenses');
         tap($expense->fresh(), function ($expense) use ($newCategory, $newSource) {
             $this->assertEquals(Carbon::parse('2022-12-01'), $expense->bought_at);
-            $this->assertEquals(Carbon::parse('2023-01-02'), $expense->paid_at);
+            // $this->assertEquals(Carbon::parse('2023-01-02'), $expense->paid_at);
+            $this->assertEquals(1, $expense->installments_quantity);
             $this->assertEquals(3250, $expense->cost);
             $this->assertEquals('New description', $expense->description);
             $this->assertEquals('new observation', $expense->observation);
@@ -165,7 +168,8 @@ class EditExpenseTest extends TestCase
 
         tap($expense->fresh(), function ($expense) use ($oldCategory, $oldSource) {
             $this->assertEquals(Carbon::parse($this->oldAttributes()['bought_at']), $expense->bought_at);
-            $this->assertEquals(Carbon::parse($this->oldAttributes()['paid_at']), $expense->paid_at);
+            // $this->assertEquals(Carbon::parse($this->oldAttributes()['paid_at']), $expense->paid_at);
+            $this->assertEquals($this->oldAttributes()['installments_quantity'], $expense->installments_quantity);
             $this->assertEquals($this->oldAttributes()['cost'], $expense->cost);
             $this->assertEquals($this->oldAttributes()['description'], $expense->description);
             $this->assertEquals($this->oldAttributes()['observation'], $expense->observation);
@@ -277,57 +281,58 @@ class EditExpenseTest extends TestCase
         });
     }
 
+    // TODO: analyse paid_at on edit expense
     /** @test */
-    public function paid_at_is_required()
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $source = Source::factory()->create();
-        $expense = Expense::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $category->id,
-            'source_id' => $source->id,
-            'paid_at' => Carbon::parse('2022-12-04'),
-        ]);
+    // public function paid_at_is_required()
+    // {
+    //     $user = User::factory()->create();
+    //     $category = Category::factory()->create();
+    //     $source = Source::factory()->create();
+    //     $expense = Expense::factory()->create([
+    //         'user_id' => $user->id,
+    //         'category_id' => $category->id,
+    //         'source_id' => $source->id,
+    //         'paid_at' => Carbon::parse('2022-12-04'),
+    //     ]);
 
-        $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
-            'paid_at' => '',
-            'category_id' => $category->id,
-            'source_id' => $source->id,
-        ]));
+    //     $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
+    //         'paid_at' => '',
+    //         'category_id' => $category->id,
+    //         'source_id' => $source->id,
+    //     ]));
 
-        $response->assertRedirect("/expenses/{$expense->id}/edit");
-        $response->assertSessionHasErrors('paid_at');
+    //     $response->assertRedirect("/expenses/{$expense->id}/edit");
+    //     $response->assertSessionHasErrors('paid_at');
 
-        tap($expense->fresh(), function ($expense) {
-            $this->assertEquals(Carbon::parse('2022-12-04'), $expense->paid_at);
-        });
-    }
+    //     tap($expense->fresh(), function ($expense) {
+    //         $this->assertEquals(Carbon::parse('2022-12-04'), $expense->paid_at);
+    //     });
+    // }
 
     /** @test */
-    public function paid_at_must_be_a_valid_date()
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $source = Source::factory()->create();
-        $expense = Expense::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $category->id,
-            'source_id' => $source->id,
-            'paid_at' => Carbon::parse('2022-12-04'),
-        ]);
+    // public function paid_at_must_be_a_valid_date()
+    // {
+    //     $user = User::factory()->create();
+    //     $category = Category::factory()->create();
+    //     $source = Source::factory()->create();
+    //     $expense = Expense::factory()->create([
+    //         'user_id' => $user->id,
+    //         'category_id' => $category->id,
+    //         'source_id' => $source->id,
+    //         'paid_at' => Carbon::parse('2022-12-04'),
+    //     ]);
 
-        $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
-            'paid_at' => 'not-a-valid-date',
-        ]));
+    //     $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
+    //         'paid_at' => 'not-a-valid-date',
+    //     ]));
 
-        $response->assertRedirect("/expenses/{$expense->id}/edit");
-        $response->assertSessionHasErrors('paid_at');
+    //     $response->assertRedirect("/expenses/{$expense->id}/edit");
+    //     $response->assertSessionHasErrors('paid_at');
 
-        tap($expense->fresh(), function ($expense) {
-            $this->assertEquals(Carbon::parse('2022-12-04'), $expense->paid_at);
-        });
-    }
+    //     tap($expense->fresh(), function ($expense) {
+    //         $this->assertEquals(Carbon::parse('2022-12-04'), $expense->paid_at);
+    //     });
+    // }
 
     /** @test */
     public function description_is_required()

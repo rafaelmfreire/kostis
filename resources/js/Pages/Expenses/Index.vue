@@ -65,10 +65,11 @@ function deleteItem(id) {
                             <tr class="border-b border-gray-300">
                                 <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Source</th>
                                 <th class="px-6 py-3 text-right uppercase text-xs tracking-wider font-bold whitespace-nowrap">Bought At</th>
+                                <th></th>
                                 <th class="px-6 text-right uppercase text-xs tracking-wider font-bold">Cost</th>
                                 <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Category</th>
-                                <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Description</th>
-                                <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Observation</th>
+                                <th class="px-6 text-left w-full uppercase text-xs tracking-wider font-bold">Description</th>
+                                <th class="px-6 text-left w-full uppercase text-xs tracking-wider font-bold">Observation</th>
                                 <th class="px-6 text-left uppercase text-xs tracking-wider text-gray-300">Actions</th>
                             </tr>
                         </thead>
@@ -76,12 +77,15 @@ function deleteItem(id) {
                             <tr v-for="expense in expenses" :key="expense.id" class="text-sm bg-white even:bg-slate-50">
                                 <td class="px-6 uppercase"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span></td>
                                 <td class="px-6 py-3 text-right tabular-nums">{{ expense.formatted_bought_at }}</td>
+                                <td>
+                                    <span v-if="expense.installments_quantity > 1" :class="[ expense.installments_quantity == expense.number ? 'bg-green-100 text-green-600': ' text-slate-400 bg-slate-100']" class="text-xs py-1 px-2 mr-2 rounded">{{ expense.number }}/{{ expense.installments_quantity }}</span>
+                                </td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-600">
                                     <span class="text-gray-300 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
                                 </td>
                                 <td class="px-6 uppercase"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span></td>
-                                <td class="px-6 uppercase whitespace-nowrap">{{ expense.description }}</td>
-                                <td class="px-6 text-xs text-gray-400">{{ expense.observation }}</td>
+                                <td class="px-6 uppercase w-full whitespace-nowrap">{{ expense.description }}</td>
+                                <td class="px-6 text-xs w-full text-gray-400">{{ expense.observation }}</td>
                                 <td class="px-6 text-gray-200 cursor-pointer">
                                     <div class="flex justify-center items-center space-x-2">
                                         <Link :href="`/expenses/${expense.id}/edit`">
@@ -100,11 +104,12 @@ function deleteItem(id) {
                             </tr>
                             <tr class="uppercase text-sm bg-slate-300">
                                 <td class="p-6"></td>
+                                <td class=""></td>
+                                <td class=""></td>
                                 <td class="px-6 py-3 text-right">Total:</td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-lg font-semibold text-slate-900">
                                     <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ stats.total_cost }}
                                 </td>
-                                <td class="px-6"></td>
                                 <td class="px-6"></td>
                                 <td class="px-6"></td>
                                 <td class=""></td>

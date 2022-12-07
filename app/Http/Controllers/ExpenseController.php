@@ -37,6 +37,8 @@ class ExpenseController extends Controller
                 'user_id' => $installment->expense->user_id,
                 'category_id' => $installment->expense->category_id,
                 'source_id' => $installment->expense->source_id,
+                'installments_quantity' => $installment->expense->installments_quantity,
+                'number' => $installment->number,
                 'cost' => $installment->cost,
                 'formatted_cost' => $installment->formatted_cost,
                 'bought_at' => $installment->expense->bought_at,
@@ -150,7 +152,7 @@ class ExpenseController extends Controller
         
         $this->validate(request(), [
             'bought_at' => ['required', 'date'],
-            'paid_at' => ['required', 'date'],
+            // 'paid_at' => ['required', 'date'],
             'cost' => ['required', 'numeric'],
             'description' => ['required'],
             'category_id' => ['required', 'exists:categories,id'],
@@ -161,7 +163,8 @@ class ExpenseController extends Controller
             'category_id' => request('category_id'),
             'source_id' => request('source_id'),
             'bought_at' => Carbon::parse(request('bought_at')),
-            'paid_at' => Carbon::parse(request('paid_at')),
+            // 'paid_at' => Carbon::parse(request('paid_at')),
+            'installments_quantity' => request('installments_quantity'),
             'cost' => request('cost') * 100,
             'description' => request('description'),
             'observation' => request('observation'),
@@ -174,7 +177,7 @@ class ExpenseController extends Controller
     {
         $expense = Auth::user()->expenses()->findOrFail($expense->id);
 
-        $month = $expense->paid_at->format('Y-m');
+        $month = $expense->installments()->first()->paid_at->format('Y-m');
 
         $expense->delete();
 

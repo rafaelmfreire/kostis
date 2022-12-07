@@ -58,11 +58,11 @@ onMounted(() => {
                                     <small class="text-red-500" v-if="errors.bought_at">{{ errors.bought_at }}</small>
                                 </div>
 
-                                <div class="col-span-6 sm:col-span-2" >
+                                <!-- <div class="col-span-6 sm:col-span-2" >
                                     <label for="date" class="block text-sm font-medium text-gray-700" >Paid At</label >
                                     <input @keypress.enter="submit(true)" @keydown="errors.paid_at = null" v-model="form.paid_at" type="date" name="paid_at" id="paid_at" :class="{ 'border-red-400' : errors.paid_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                     <small class="text-red-500" v-if="errors.paid_at">{{ errors.paid_at }}</small>
-                                </div>
+                                </div> -->
 
                                 <div class="col-span-6 sm:col-span-2" >
                                     <label for="category" class="block text-sm font-medium text-gray-700" >Category</label >
