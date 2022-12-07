@@ -59,30 +59,75 @@ class AddExpensesTest extends TestCase
         $source = Source::factory()->create();
 
         $response = $this->actingAs($user)->post('/expenses', [
+            'cost' => '1230.00',
+            'installments_quantity' => 1,
             'bought_at' => '2022-11-18',
             'paid_at' => '2022-12',
-            'cost' => '1125.00',
             'description' => 'Example',
-            'observation' => 'some observation',
-            'installments_quantity' => 2,
             'category_id' => $category->id,
             'source_id' => $source->id,
+            'observation' => 'some observation',
         ]);
 
         tap(Expense::first(), function ($expense) use ($response, $user, $category, $source) {
             $response->assertRedirect('/expenses');
 
-            $this->assertTrue($expense->fresh()->user->is($user));
+            $this->assertTrue($expense->user->is($user));
 
-            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->fresh()->bought_at);
-            $this->assertEquals(112500, $expense->fresh()->cost);
-            $this->assertEquals('Example', $expense->fresh()->description);
-            $this->assertEquals('some observation', $expense->fresh()->observation);
-            $this->assertEquals(2, $expense->fresh()->installments_quantity);
-            $this->assertEquals($category->name, $expense->fresh()->category->name);
-            $this->assertEquals($source->name, $expense->fresh()->source->name);
+            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->bought_at);
+            $this->assertEquals(123000, $expense->cost);
+            $this->assertEquals('Example', $expense->description);
+            $this->assertEquals('some observation', $expense->observation);
+            $this->assertEquals(1, $expense->installments_quantity);
+            $this->assertEquals($category->name, $expense->category->name);
+            $this->assertEquals($source->name, $expense->source->name);
 
-            $this->assertEquals(2, $expense->fresh()->installmentQuantity());
+            $this->assertEquals(1, $expense->installmentQuantity());
+
+            $this->assertEquals(Carbon::parse('2022-12-01'), $expense->installments()->first()->paid_at);
+            $this->assertEquals(1, $expense->installments()->first()->number);
+            $this->assertEquals(123000, $expense->installments()->first()->cost);
+        });
+    }
+
+    /** @test */
+    public function adding_a_valid_expense_with_more_than_1_installment()
+    {
+        $user = User::factory()->create();
+        $category = Category::factory()->create();
+        $source = Source::factory()->create();
+
+        $response = $this->actingAs($user)->post('/expenses', [
+            'cost' => '1230.00',
+            'installments_quantity' => 3,
+            'bought_at' => '2022-11-18',
+            'paid_at' => '2022-12',
+            'description' => 'Example',
+            'category_id' => $category->id,
+            'source_id' => $source->id,
+            'observation' => 'some observation',
+        ]);
+
+        tap(Expense::first(), function ($expense) use ($response, $user, $category, $source) {
+            $response->assertRedirect('/expenses');
+
+            $this->assertTrue($expense->user->is($user));
+
+            $this->assertEquals(Carbon::parse('2022-11-18'), $expense->bought_at);
+            $this->assertEquals(123000, $expense->cost);
+            $this->assertEquals('Example', $expense->description);
+            $this->assertEquals('some observation', $expense->observation);
+            $this->assertEquals(3, $expense->installments_quantity);
+            $this->assertEquals($category->name, $expense->category->name);
+            $this->assertEquals($source->name, $expense->source->name);
+
+            $this->assertEquals(3, $expense->installmentQuantity());
+
+            $expense->installments()->each(function ($installment, $index) use ($expense) {
+                $this->assertEquals(++$index, $installment->number);
+                $this->assertEquals($expense->cost / $expense->installments_quantity, $installment->cost);
+                $this->assertEquals(Carbon::parse('2022-12-01')->addMonth(--$index), $installment->paid_at);
+            });
         });
     }
 
@@ -207,9 +252,6 @@ class AddExpensesTest extends TestCase
         $this->withoutExceptionHandling();
 
         $user = User::factory()->create();
-
-        // TODO: refactor to "hide" the setup of category since
-        // it's not an essential part of this test
         $category = Category::factory()->create();
         $source = Source::factory()->create();
 

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Expense;
+use App\Models\Installment;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -18,8 +19,7 @@ class DeleteExpenseTest extends TestCase
         $user = User::factory()->create();
         $expense = Expense::factory()->create([
             'user_id' => $user->id,
-        ]);
-        $expense->addInstallments(Carbon::now()->format('Y-m'));
+        ])->addInstallments(Carbon::now());
 
         $this->assertEquals(1, Expense::count());
 
@@ -28,6 +28,7 @@ class DeleteExpenseTest extends TestCase
         $response = $this->actingAs($user)->delete("/expenses/{$expense->id}");
 
         $this->assertEquals(0, Expense::count());
+        $this->assertEquals(0, Installment::count());
 
         // The user is redirected to the index page
         // with the same month filter applied

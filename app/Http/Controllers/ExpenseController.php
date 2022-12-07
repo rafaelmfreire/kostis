@@ -8,6 +8,7 @@ use App\Models\Installment;
 use App\Models\Source;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -18,32 +19,31 @@ class ExpenseController extends Controller
         $month = request('month') ?? Carbon::create(Carbon::now()->format('Y'), Carbon::now()->format('m'), 1);
         $start_date = new CarbonImmutable($month.'-01');
         $end_date = $start_date->add('month', 1)->format('Y-m-d');
-  
-        $installments = Installment::with([
-            'expense' => function ($query) {
-                $query->where('user_id', Auth::user()->id);
-            }, 
-            'expense.source', 
-            'expense.category'
-        ])->where(
+
+        $installments = Installment::with([ 'expense', 'expense.source', 'expense.category' ])
+        ->whereHas('expense', function (Builder $query) {
+            $query->where('user_id', Auth::user()->id);
+        })->where(
             'paid_at', '>=', $start_date->format('Y-m-d')
         )->where(
             'paid_at', '<', $end_date
-        // )->orderBy(
-        //     'bought_at', 'desc'
+        )->join(
+            'expenses', 'expenses.id', '=', 'installments.expense_id'
+        )->orderBy(
+            'expenses.bought_at', 'DESC'
         )->get()->map(function ($installment) {
             return [
                 'id' => $installment->expense->id,
                 'user_id' => $installment->expense->user_id,
-                'category_id' => $installment->expense->category_id,
-                'source_id' => $installment->expense->source_id,
+                // 'category_id' => $installment->expense->category_id,
+                // 'source_id' => $installment->expense->source_id,
                 'installments_quantity' => $installment->expense->installments_quantity,
                 'number' => $installment->number,
                 'cost' => $installment->cost,
                 'formatted_cost' => $installment->formatted_cost,
-                'bought_at' => $installment->expense->bought_at,
+                // 'bought_at' => $installment->expense->bought_at,
                 'formatted_bought_at' => $installment->expense->formatted_bought_at,
-                'paid_at' => $installment->paid_at,
+                // 'paid_at' => $installment->paid_at,
                 'formatted_paid_at' => $installment->formatted_paid_at,
                 'description' => $installment->expense->description,
                 'observation' => $installment->expense->observation,
@@ -53,38 +53,6 @@ class ExpenseController extends Controller
                 'source_color' => $installment->expense->source->color,
             ];
         });
-
-        //
-        // $expenses = Expense::with(['category', 'source', 'installments' => function ($query) use($start_date, $end_date) {
-        //     $query->where(
-        //         'paid_at', '>=', $start_date->format('Y-m-d')
-        //     )->where(
-        //         'paid_at', '<', $end_date
-        //     );
-        // }])->where(
-        //     'user_id', Auth::user()->id
-        // )->orderBy(
-        //     'bought_at', 'desc'
-        // )->get()->map(function ($expense) {
-        //     return [
-        //         'id' => $expense->id,
-        //         'user_id' => $expense->user_id,
-        //         'category_id' => $expense->category_id,
-        //         'source_id' => $expense->source_id,
-        //         'cost' => $expense->cost,
-        //         'formatted_cost' => $expense->formatted_cost,
-        //         'bought_at' => $expense->bought_at,
-        //         'formatted_bought_at' => $expense->formatted_bought_at,
-        //         'paid_at' => '2022-12-01',//$expense->paid_at,
-        //         'formatted_paid_at' => '01/12/2022',//$expense->formatted_paid_at,
-        //         'description' => $expense->description,
-        //         'observation' => $expense->observation,
-        //         'category_name' => $expense->category->name,
-        //         'category_color' => $expense->category->color,
-        //         'source_name' => $expense->source->name,
-        //         'source_color' => $expense->source->color,
-        //     ];
-        // });
 
         return inertia('Expenses/Index', [
             'expenses' => $installments,
@@ -153,7 +121,7 @@ class ExpenseController extends Controller
         $this->validate(request(), [
             'bought_at' => ['required', 'date'],
             // 'paid_at' => ['required', 'date'],
-            'cost' => ['required', 'numeric'],
+            // 'cost' => ['required', 'numeric'],
             'description' => ['required'],
             'category_id' => ['required', 'exists:categories,id'],
             'source_id' => ['required', 'exists:sources,id'],
@@ -164,8 +132,8 @@ class ExpenseController extends Controller
             'source_id' => request('source_id'),
             'bought_at' => Carbon::parse(request('bought_at')),
             // 'paid_at' => Carbon::parse(request('paid_at')),
-            'installments_quantity' => request('installments_quantity'),
-            'cost' => request('cost') * 100,
+            // 'installments_quantity' => request('installments_quantity'),
+            // 'cost' => request('cost') * 100,
             'description' => request('description'),
             'observation' => request('observation'),
         ]);

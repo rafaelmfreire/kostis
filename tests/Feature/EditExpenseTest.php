@@ -114,9 +114,6 @@ class EditExpenseTest extends TestCase
         $expense = Expense::factory()->create([
             'user_id' => $user->id,
             'bought_at' => '2022-11-30',
-            // 'paid_at' => '2022-12-03',
-            'installments_quantity' => 1,
-            'cost' => 2500,
             'description' => 'Sample description',
             'observation' => 'sample observation',
             'category_id' => Category::factory()->create()->id,
@@ -128,25 +125,19 @@ class EditExpenseTest extends TestCase
 
         $response = $this->actingAs($user)->patch("/expenses/{$expense->id}", [
             'bought_at' => '2022-12-01',
-            // 'paid_at' => '2023-01-02',
-            'installments_quantity' => 1,
-            'cost' => '32.50',
-            'description' => 'New description',
-            'observation' => 'new observation',
             'category_id' => $newCategory->id,
             'source_id' => $newSource->id,
+            'description' => 'New description',
+            'observation' => 'new observation',
         ]);
 
         $response->assertRedirect('/expenses');
         tap($expense->fresh(), function ($expense) use ($newCategory, $newSource) {
             $this->assertEquals(Carbon::parse('2022-12-01'), $expense->bought_at);
-            // $this->assertEquals(Carbon::parse('2023-01-02'), $expense->paid_at);
-            $this->assertEquals(1, $expense->installments_quantity);
-            $this->assertEquals(3250, $expense->cost);
-            $this->assertEquals('New description', $expense->description);
-            $this->assertEquals('new observation', $expense->observation);
             $this->assertEquals($newCategory->id, $expense->category_id);
             $this->assertEquals($newSource->id, $expense->source_id);
+            $this->assertEquals('New description', $expense->description);
+            $this->assertEquals('new observation', $expense->observation);
         });
     }
 
@@ -168,65 +159,62 @@ class EditExpenseTest extends TestCase
 
         tap($expense->fresh(), function ($expense) use ($oldCategory, $oldSource) {
             $this->assertEquals(Carbon::parse($this->oldAttributes()['bought_at']), $expense->bought_at);
-            // $this->assertEquals(Carbon::parse($this->oldAttributes()['paid_at']), $expense->paid_at);
-            $this->assertEquals($this->oldAttributes()['installments_quantity'], $expense->installments_quantity);
-            $this->assertEquals($this->oldAttributes()['cost'], $expense->cost);
-            $this->assertEquals($this->oldAttributes()['description'], $expense->description);
-            $this->assertEquals($this->oldAttributes()['observation'], $expense->observation);
             $this->assertEquals($oldCategory->id, $expense->category_id);
             $this->assertEquals($oldSource->id, $expense->source_id);
+            $this->assertEquals($this->oldAttributes()['description'], $expense->description);
+            $this->assertEquals($this->oldAttributes()['observation'], $expense->observation);
         });
     }
 
     /** @test */
-    public function cost_is_required()
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $source = Source::factory()->create();
-        $expense = Expense::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $category->id,
-            'source_id' => $source->id,
-            'cost' => 1200,
-        ]);
+    // public function cost_is_required()
+    // {
+    //     $user = User::factory()->create();
+    //     $category = Category::factory()->create();
+    //     $source = Source::factory()->create();
+    //     $expense = Expense::factory()->create([
+    //         'user_id' => $user->id,
+    //         'category_id' => $category->id,
+    //         'source_id' => $source->id,
+    //         'cost' => 1200,
+    //     ]);
 
-        $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
-            'cost' => '',
-        ]));
+    //     $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
+    //         'cost' => '',
+    //     ]));
 
-        $response->assertRedirect("/expenses/{$expense->id}/edit");
-        $response->assertSessionHasErrors('cost');
+    //     $response->assertRedirect("/expenses/{$expense->id}/edit");
+    //     $response->assertSessionHasErrors('cost');
 
-        tap($expense->fresh(), function ($expense) {
-            $this->assertEquals(1200, $expense->cost);
-        });
-    }
+    //     tap($expense->fresh(), function ($expense) {
+    //         $this->assertEquals(1200, $expense->cost);
+    //     });
+    // }
 
-    /** @test */
-    public function cost_must_be_numeric()
-    {
-        $user = User::factory()->create();
-        $category = Category::factory()->create();
-        $source = Source::factory()->create();
-        $expense = Expense::factory()->create([
-            'user_id' => $user->id,
-            'category_id' => $category->id,
-            'source_id' => $source->id,
-            'cost' => 1200,
-        ]);
+    // /** @test */
+    // public function cost_must_be_numeric()
+    // {
+    //     $user = User::factory()->create();
+    //     $category = Category::factory()->create();
+    //     $source = Source::factory()->create();
+    //     $expense = Expense::factory()->create([
+    //         'user_id' => $user->id,
+    //         'category_id' => $category->id,
+    //         'source_id' => $source->id,
+    //         'cost' => 1200,
+    //     ]);
 
-        $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
-            'cost' => 'not-a-number',
-        ]));
+    //     $response = $this->actingAs($user)->from("/expenses/{$expense->id}/edit")->patch("/expenses/{$expense->id}", $this->validParams([
+    //         'cost' => 'not-a-number',
+    //     ]));
 
-        $response->assertRedirect("/expenses/{$expense->id}/edit");
-        $response->assertSessionHasErrors('cost');
+    //     $response->assertRedirect("/expenses/{$expense->id}/edit");
+    //     $response->assertSessionHasErrors('cost');
 
-        tap($expense->fresh(), function ($expense) {
-            $this->assertEquals(1200, $expense->cost);
-        });
-    }
+    //     tap($expense->fresh(), function ($expense) {
+    //         $this->assertEquals(1200, $expense->cost);
+    //     });
+    // }
 
     /** @test */
     public function bought_at_is_required()

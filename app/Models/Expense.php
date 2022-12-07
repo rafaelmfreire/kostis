@@ -73,6 +73,7 @@ class Expense extends Model
                 'paid_at' => Carbon::parse($startDate)->addMonth($i-1),
             ]);
         }
+        return $this;
     }
 
     public function installmentQuantity()

@@ -78,7 +78,7 @@ function deleteItem(id) {
                                 <td class="px-6 uppercase"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span></td>
                                 <td class="px-6 py-3 text-right tabular-nums">{{ expense.formatted_bought_at }}</td>
                                 <td>
-                                    <span v-if="expense.installments_quantity > 1" :class="[ expense.installments_quantity == expense.number ? 'bg-green-100 text-green-600': ' text-slate-400 bg-slate-100']" class="text-xs py-1 px-2 mr-2 rounded">{{ expense.number }}/{{ expense.installments_quantity }}</span>
+                                    <span v-if="expense.installments_quantity > 1" :class="[ expense.installments_quantity == expense.number ? 'bg-green-100 text-green-600': ' text-slate-400 bg-slate-100']" class="text-xs py-1 px-2 rounded">{{ expense.number }}/{{ expense.installments_quantity }}</span>
                                 </td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-600">
                                     <span class="text-gray-300 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
@@ -106,12 +106,12 @@ function deleteItem(id) {
                                 <td class="p-6"></td>
                                 <td class=""></td>
                                 <td class=""></td>
-                                <td class="px-6 py-3 text-right">Total:</td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-lg font-semibold text-slate-900">
                                     <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ stats.total_cost }}
                                 </td>
-                                <td class="px-6"></td>
-                                <td class="px-6"></td>
+                                <td class=""></td>
+                                <td class=""></td>
+                                <td class=""></td>
                                 <td class=""></td>
                             </tr>
                         </tbody>

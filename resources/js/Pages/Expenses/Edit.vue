@@ -26,7 +26,7 @@ function submit() {
 }
 
 onMounted(() => {
-    document.getElementById("cost").focus();
+    document.getElementById("bought_at").focus();
 })
 </script>
 
@@ -41,28 +41,22 @@ onMounted(() => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
                 <form action="#" method="POST">
                     <div class="overflow-hidden sm:rounded-md" >
                         <div class="bg-white px-4 py-5 sm:p-6">
-                            <div class="grid grid-cols-10 gap-6">
-                                <div class="col-span-6 sm:col-span-2" >
+                            <div class="grid grid-cols-6 gap-6">
+                                <!-- <div class="col-span-6 sm:col-span-2" >
                                     <label for="cost" class="block text-sm font-medium text-gray-700" >Cost</label >
                                     <input @keypress.enter="submit(true)" @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                     <small class="text-red-500" v-if="errors.cost">{{ errors.cost }}</small>
-                                </div>
+                                </div> -->
 
                                 <div class="col-span-6 sm:col-span-2" >
                                     <label for="date" class="block text-sm font-medium text-gray-700" >Bought At</label >
                                     <input @keypress.enter="submit(true)" @keydown="errors.bought_at = null" v-model="form.bought_at" type="date" name="bought_at" id="bought_at" :class="{ 'border-red-400' : errors.bought_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                     <small class="text-red-500" v-if="errors.bought_at">{{ errors.bought_at }}</small>
                                 </div>
-
-                                <!-- <div class="col-span-6 sm:col-span-2" >
-                                    <label for="date" class="block text-sm font-medium text-gray-700" >Paid At</label >
-                                    <input @keypress.enter="submit(true)" @keydown="errors.paid_at = null" v-model="form.paid_at" type="date" name="paid_at" id="paid_at" :class="{ 'border-red-400' : errors.paid_at }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                    <small class="text-red-500" v-if="errors.paid_at">{{ errors.paid_at }}</small>
-                                </div> -->
 
                                 <div class="col-span-6 sm:col-span-2" >
                                     <label for="category" class="block text-sm font-medium text-gray-700" >Category</label >
@@ -80,13 +74,13 @@ onMounted(() => {
                                     <small class="text-red-500" v-if="errors.source_id">{{ errors.source_id }}</small>
                                 </div>
 
-                                <div class="col-span-10" >
+                                <div class="col-span-6" >
                                     <label for="description" class="block text-sm font-medium text-gray-700" >Description</label >
                                     <input @keypress.enter="submit(true)" @keydown="errors.description = null" v-model="form.description" type="text" name="description" id="description" :class="{ 'border-red-400' : errors.description }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                     <small class="text-red-500" v-if="errors.description">{{ errors.description }}</small>
                                 </div>
 
-                                <div class="col-span-10">
+                                <div class="col-span-6">
                                     <label for="observation" class="block text-sm font-medium text-gray-700" >Observation</label >
                                     <input @keypress.enter="submit(true)" @keydown="errors.observation = null" v-model="form.observation" type="text" name="observation" id="observation" :class="{ 'border-red-400' : errors.observation }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                     <small class="text-red-500" v-if="errors.observation">{{ errors.observation }}</small>

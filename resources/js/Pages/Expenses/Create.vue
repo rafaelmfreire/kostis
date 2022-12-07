@@ -42,7 +42,7 @@ onMounted(() => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
                 <form action="#" method="POST">
                     <div class="overflow-hidden sm:rounded-md" >
                         <div class="bg-white px-4 py-5 sm:p-6">

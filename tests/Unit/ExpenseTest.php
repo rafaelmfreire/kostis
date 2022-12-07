@@ -31,21 +31,37 @@ class ExpenseTest extends TestCase
     }
 
     /** @test */
-    public function can_get_formatted_paid_at()
+    public function can_add_installments()
     {
-        $user = User::factory()->make();
-        $category = Category::factory()->make();
-
-        $expense = Expense::factory()->make([
+        $user = User::factory()->create();
+        $expense = Expense::factory()->create([
             'user_id' => $user->id,
-            'paid_at' => Carbon::parse('2022-11-18'),
-            'category_id' => $category->id,
+            'installments_quantity' => 3,
         ]);
 
-        $paid_at = $expense->formatted_paid_at;
+        $this->assertEquals(0, $expense->installments()->count());
+        
+        $expense->addInstallments(Carbon::parse('2012-12'));
 
-        $this->assertEquals('18/11/2022', $paid_at);
+        $this->assertEquals(3, $expense->installments()->count());
     }
+    // TODO: Move to InstallmentTest
+    /** @test */
+    // public function can_get_formatted_paid_at()
+    // {
+    //     $user = User::factory()->make();
+    //     $category = Category::factory()->make();
+
+    //     $expense = Expense::factory()->make([
+    //         'user_id' => $user->id,
+    //         'paid_at' => Carbon::parse('2022-11-18'),
+    //         'category_id' => $category->id,
+    //     ]);
+
+    //     $paid_at = $expense->formatted_paid_at;
+
+    //     $this->assertEquals('18/11/2022', $paid_at);
+    // }
 
     /** @test */
     public function can_get_cost_in_brazilian_real()

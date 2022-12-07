@@ -36,9 +36,9 @@ class ViewExpenseListTest extends TestCase
         $category = Category::factory()->create();
         $source = Source::factory()->create();
 
-        $expenseA = Expense::factory()->create([ 'user_id' => $user->id, 'category_id' => $category->id, 'source_id' => $source->id, ]);
-        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id, 'category_id' => $category->id, 'source_id' => $source->id]);
-        $expenseC = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id, 'source_id' => $source->id]);
+        $expenseA = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id, 'source_id' => $source->id, ])->addInstallments(Carbon::now());
+        $expenseB = Expense::factory()->create(['user_id' => $otherUser->id, 'category_id' => $category->id, 'source_id' => $source->id])->addInstallments(Carbon::now());
+        $expenseC = Expense::factory()->create(['user_id' => $user->id, 'category_id' => $category->id, 'source_id' => $source->id])->addInstallments(Carbon::now());
 
         //Act
         $response = $this->actingAs($user)->get('/expenses');
@@ -49,6 +49,8 @@ class ViewExpenseListTest extends TestCase
         $response->assertInertia(fn (AssertableInertia $page) => $page
             ->component('Expenses/Index')
             ->has('expenses', 2, fn (AssertableInertia $page) => $page
+                ->has('installments_quantity')
+                ->has('number')
                 ->has('formatted_bought_at')
                 ->has('formatted_paid_at')
                 ->has('formatted_cost')
@@ -61,15 +63,15 @@ class ViewExpenseListTest extends TestCase
                 ->has('source_color')
                 ->etc()
             )
-            // TODO: fix this test
-        //     ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
-        //         return
-        //             collect($value[0])->diff($expenseA->toArray())->count() == 0 &&
-        //             collect($value[1])->diff($expenseC->toArray())->count() == 0 &&
-        //             collect($value[0])->diff($expenseB->toArray())->count() > 0 &&
-        //             collect($value[1])->diff($expenseB->toArray())->count() > 0;
-        //     })
         );
+        // TODO: fix this test
+    //     ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
+    //         return
+    //             collect($value[0])->diff($expenseA->toArray())->count() == 0 &&
+    //             collect($value[1])->diff($expenseC->toArray())->count() == 0 &&
+    //             collect($value[0])->diff($expenseB->toArray())->count() > 0 &&
+    //             collect($value[1])->diff($expenseB->toArray())->count() > 0;
+    //     })
     }
 
     /** @test */
@@ -79,16 +81,15 @@ class ViewExpenseListTest extends TestCase
         $user = User::factory()->create();
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
-            'paid_at' => Carbon::now(),
-        ]);
+        ])->addInstallments(Carbon::now());
+
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
-            'paid_at' => Carbon::parse('+1 month'),
-        ]);
+        ])->addInstallments(Carbon::parse('+1 month'));
+
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
-            'paid_at' => Carbon::now(),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         //Act
         $response = $this->actingAs($user)->call('GET', '/expenses', ['month' => Carbon::now()->format('Y-m')]);
@@ -117,20 +118,17 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1200',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
-            'cost' => '2500',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
-        ]);
+            'cost' => '4500',
+        ])->addInstallments(Carbon::parse('+1 month'));
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
 
@@ -151,20 +149,17 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '4500',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::parse('+1 month'));
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
 
@@ -185,20 +180,17 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1000',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::parse('+1 month'));
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
 
@@ -219,20 +211,17 @@ class ViewExpenseListTest extends TestCase
         $expenseA = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '3200',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $expenseB = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '1000',
-            'paid_at' => Carbon::parse('+1 month')->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::parse('+1 month'));
 
         $expenseC = Expense::factory()->create([
             'user_id' => $user->id,
             'cost' => '2500',
-            'paid_at' => Carbon::now()->format('Y-m-d'),
-        ]);
+        ])->addInstallments(Carbon::now());
 
         $response = $this->actingAs($user)->get('/expenses?month='.Carbon::now()->format('Y-m'));
 
