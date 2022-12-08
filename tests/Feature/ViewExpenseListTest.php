@@ -10,6 +10,7 @@ use App\Models\Source;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Collection;
 use Inertia\Testing\AssertableInertia;
 use Tests\TestCase;
 
@@ -52,7 +53,6 @@ class ViewExpenseListTest extends TestCase
                 ->has('installments_quantity')
                 ->has('number')
                 ->has('formatted_bought_at')
-                ->has('formatted_paid_at')
                 ->has('formatted_cost')
                 ->has('description')
                 ->has('observation')
@@ -63,15 +63,16 @@ class ViewExpenseListTest extends TestCase
                 ->has('source_color')
                 ->etc()
             )
+            ->has('stats.total_cost')
+            ->has('stats.most_expensive')
+            ->has('stats.expenses_quantity')
+            ->has('stats.average')
+            ->where('expenses', function (Collection $expense) use ($expenseB, $user) {
+                return $expense->contains(function ($e) use ($expenseB, $user) {
+                    return $e['id'] !== $expenseB->id && $e['user_id'] === $user->id;
+                });
+            })
         );
-        // TODO: fix this test
-    //     ->where('expenses', function ($value) use ($expenseA, $expenseB, $expenseC) {
-    //         return
-    //             collect($value[0])->diff($expenseA->toArray())->count() == 0 &&
-    //             collect($value[1])->diff($expenseC->toArray())->count() == 0 &&
-    //             collect($value[0])->diff($expenseB->toArray())->count() > 0 &&
-    //             collect($value[1])->diff($expenseB->toArray())->count() > 0;
-    //     })
     }
 
     /** @test */
@@ -101,12 +102,16 @@ class ViewExpenseListTest extends TestCase
             ->component('Expenses/Index')
             ->has('expenses', 2, fn (AssertableInertia $page) => $page
                 ->has('formatted_bought_at')
-                ->has('formatted_paid_at')
                 ->has('formatted_cost')
                 ->has('description')
                 ->has('observation')
                 ->etc()
             )
+            ->where('expenses', function (Collection $expense) use ($expenseB, $user) {
+                return $expense->contains(function ($e) use ($expenseB, $user) {
+                    return $e['id'] !== $expenseB->id && $e['user_id'] === $user->id;
+                });
+            })
         );
     }
 

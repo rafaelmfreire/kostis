@@ -44,7 +44,7 @@ class ExpenseController extends Controller
                 // 'bought_at' => $installment->expense->bought_at,
                 'formatted_bought_at' => $installment->expense->formatted_bought_at,
                 // 'paid_at' => $installment->paid_at,
-                'formatted_paid_at' => $installment->formatted_paid_at,
+                // 'formatted_paid_at' => $installment->formatted_paid_at,
                 'description' => $installment->expense->description,
                 'observation' => $installment->expense->observation,
                 'category_name' => $installment->expense->category->name,
