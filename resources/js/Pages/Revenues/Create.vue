@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/inertia-vue3";
 import { Inertia } from '@inertiajs/inertia';
@@ -20,6 +20,10 @@ function submit() {
         preserveState: (page) => true,
     })
 }
+
+onMounted(() => {
+    document.getElementById("income").focus();
+})
 </script>
 
 <template>
