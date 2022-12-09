@@ -56,11 +56,11 @@ class SourceController extends Controller
         return redirect()->route('sources.index');
     }
 
-    public function delete(Source $category)
+    public function delete(Source $source)
     {
-        $category = Source::findOrFail($category->id);
+        $source = Source::findOrFail($source->id);
 
-        $category->delete();
+        $source->delete();
 
         return redirect()->route('sources.index');
     }
