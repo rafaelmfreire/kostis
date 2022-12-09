@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, reactive } from 'vue';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { Head } from "@inertiajs/inertia-vue3";
+import { Head, Link } from '@inertiajs/inertia-vue3';
 import { Inertia } from '@inertiajs/inertia';
 
 const props = defineProps({
@@ -9,6 +9,7 @@ const props = defineProps({
     sources: Object,
     errors: Object,
     expense: Object,
+    installments: Object,
 });
 
 const form = reactive({
@@ -41,16 +42,11 @@ onMounted(() => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-                <form action="#" method="POST">
+            <div class="max-w-7xl grid grid-cols-5 gap-8 mx-auto sm:px-6 lg:px-8">
+                <form action="#" method="POST" class="col-span-3">
                     <div class="overflow-hidden sm:rounded-md" >
                         <div class="bg-white px-4 py-5 sm:p-6">
                             <div class="grid grid-cols-6 gap-6">
-                                <!-- <div class="col-span-6 sm:col-span-2" >
-                                    <label for="cost" class="block text-sm font-medium text-gray-700" >Cost</label >
-                                    <input @keypress.enter="submit(true)" @keydown="errors.cost = null" v-model="form.cost" type="number" step="0.01" name="cost" id="cost" :class="{ 'border-red-400' : errors.cost }" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
-                                    <small class="text-red-500" v-if="errors.cost">{{ errors.cost }}</small>
-                                </div> -->
 
                                 <div class="col-span-6 sm:col-span-2" >
                                     <label for="date" class="block text-sm font-medium text-gray-700" >Bought At</label >
@@ -92,6 +88,48 @@ onMounted(() => {
                         </div>
                     </div>
                 </form>
+
+                <div class="col-span-2">
+                    <div class="overflow-hidden sm:rounded-lg border border-gray-300">
+                        <table class="min-w-full">
+                            <thead class="bg-gray-200">
+                                <tr class="border-b border-gray-300">
+                                    <th class="px-6 py-3 text-right uppercase text-xs tracking-wider font-bold">Cost</th>
+                                    <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Paid At</th>
+                                    <th class="text-right pr-6 uppercase text-xs tracking-wider text-gray-300">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr v-for="installment in installments" :key="installment.id" class="uppercase text-sm bg-white even:bg-gray-50">
+                                    <td class="px-6 text-right whitespace-nowrap font-mono text-base text-slate-600">
+                                        <div class="flex justify-between">
+                                            <span v-if="expense.installments_quantity > 1" :class="[ expense.installments_quantity == expense.number ? 'bg-green-100 text-green-600': 'font-semibold text-slate-500 bg-slate-200']" class="text-xs py-1 px-2 rounded">
+                                                {{ installment.number }}/{{ expense.installments_quantity }}
+                                            </span>
+                                            <span v-else> </span>
+
+                                            <div class="space-x-2 font-semibold">
+                                                <span class="text-gray-300 text-xs font-sans font-normal">R$</span>
+                                                <span>{{ installment.formatted_cost }}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-3 capitalize tabular-nums">{{ installment.formatted_paid_at }}</td>
+                                    <td class="px-6 text-gray-200">
+                                        <div class="flex justify-end items-center">
+                                            <Link :href="`/expenses/${expense.id}/installments/${installment.id}/edit`" class="cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 hover:text-indigo-500">
+                                                    <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />
+                                                    <path d="M5.25 5.25a3 3 0 00-3 3v10.5a3 3 0 003 3h10.5a3 3 0 003-3V13.5a.75.75 0 00-1.5 0v5.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5V8.25a1.5 1.5 0 011.5-1.5h5.25a.75.75 0 000-1.5H5.25z" />
+                                                </svg>
+                                            </Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>

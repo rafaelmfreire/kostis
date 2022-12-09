@@ -110,11 +110,12 @@ class ExpenseController extends Controller
     public function edit(Expense $expense)
     {
         $expense = Auth::user()->expenses()->findOrFail($expense->id);
+        $installments = $expense->installments;
 
         $categories = Category::all();
         $sources = Source::all();
 
-        return Inertia::render('Expenses/Edit', ['categories' => $categories, 'sources' => $sources, 'expense' => $expense]);
+        return Inertia::render('Expenses/Edit', ['categories' => $categories, 'sources' => $sources, 'expense' => $expense, 'installments' => $installments]);
     }
 
     public function update(Expense $expense)

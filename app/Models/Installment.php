@@ -16,7 +16,7 @@ class Installment extends Model
     public function formattedPaidAt(): Attribute
     {
         return new Attribute(
-            get: fn () => $this->paid_at->format('d/m/Y'),
+            get: fn () => $this->paid_at->format('M/Y'),
         );
     }
 

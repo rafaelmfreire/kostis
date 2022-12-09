@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\InstallmentController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\SourceController;
 use Illuminate\Foundation\Application;
@@ -38,7 +39,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create')->name('expenses.create');
         Route::post('/', 'store')->name('expenses.store');
         Route::delete('/{expense}', 'delete');
-        Route::get("/{expense}/edit", 'edit');
+        Route::get("/{expense}/edit", 'edit')->name('expenses.edit');
         Route::patch("/{expense}", 'update')->name('expenses.update');
     });
 
@@ -64,6 +65,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('', 'index')->name('sources.index');
         Route::delete('/{source}', 'delete');
     });
+
+    Route::get('/expenses/{expense}/installments/{installment}/edit', [InstallmentController::class, 'edit']);
+    Route::patch('/expenses/{expense}/installments/{installment}', [InstallmentController::class, 'update']);
 });
+
 
 require __DIR__.'/auth.php';

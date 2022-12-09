@@ -376,4 +376,6 @@ class EditExpenseTest extends TestCase
             $this->assertNull($expense->observation);
         });
     }
+
+    // TODO: user can view the installments of the editing expense
 }
