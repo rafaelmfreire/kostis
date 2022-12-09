@@ -12,7 +12,7 @@ const showingNavigationDropdown = ref(false);
 
 <template>
     <div>
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-slate-500">
             <nav class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,6 +29,18 @@ const showingNavigationDropdown = ref(false);
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
+                                </NavLink>
+                                <NavLink :href="route('expenses.index')" :active="$page.component.startsWith('Expenses')">
+                                    Expenses
+                                </NavLink>
+                                <NavLink :href="route('revenues.index')" :active="$page.component.startsWith('Revenues')">
+                                    Revenues
+                                </NavLink>
+                                <NavLink :href="route('categories.index')" :active="$page.component.startsWith('Categories')">
+                                    Categories
+                                </NavLink>
+                                <NavLink :href="route('sources.index')" :active="$page.component.startsWith('Sources')">
+                                    Sources
                                 </NavLink>
                             </div>
                         </div>
@@ -75,6 +87,18 @@ const showingNavigationDropdown = ref(false);
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('expenses.index')" :active="$page.component.startsWith('Expenses')">
+                            Expenses
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('revenues.index')" :active="$page.component.startsWith('Revenues')">
+                            Revenues
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('categories.index')" :active="$page.component.startsWith('Categories')">
+                            Categories
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink :href="route('sources.index')" :active="$page.component.startsWith('Sources')">
+                            Sources
                         </ResponsiveNavLink>
                     </div>
 

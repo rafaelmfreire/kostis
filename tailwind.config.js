@@ -9,10 +9,20 @@ module.exports = {
         './resources/js/**/*.vue',
     ],
 
+    safelist: [
+        {
+            pattern: /bg-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(200)/,
+        },
+        {
+            pattern: /text-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(700)/,
+        },
+    ],
+
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                mono: ['Roboto Mono', ...defaultTheme.fontFamily.sans],
             },
         },
     },
