@@ -73,6 +73,8 @@ class ViewExpenseListTest extends TestCase
                 });
             })
         );
+
+        // TODO: include asserting equals values
     }
 
     /** @test */

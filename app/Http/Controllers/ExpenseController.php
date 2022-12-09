@@ -20,8 +20,7 @@ class ExpenseController extends Controller
         $start_date = new CarbonImmutable($month.'-01');
         $end_date = $start_date->add('month', 1)->format('Y-m-d');
 
-        $installments = Installment::with([ 'expense', 'expense.source', 'expense.category' ])
-        ->whereHas('expense', function (Builder $query) {
+        $installments = Installment::whereHas('expense', function (Builder $query) {
             $query->where('user_id', Auth::user()->id);
         })->where(
             'paid_at', '>=', $start_date->format('Y-m-d')
@@ -29,28 +28,32 @@ class ExpenseController extends Controller
             'paid_at', '<', $end_date
         )->join(
             'expenses', 'expenses.id', '=', 'installments.expense_id'
+        )->join(
+            'categories', 'categories.id', '=', 'expenses.category_id'
+        )->join(
+            'sources', 'sources.id', '=', 'expenses.source_id'
+        )->select(
+            'installments.number', 'installments.cost', 
+            'expenses.installments_quantity', 'expenses.user_id', 'expenses.id', 'expenses.bought_at', 'expenses.description', 'expenses.observation', 
+            'categories.name as category_name', 'categories.color as category_color',
+            'sources.name as source_name', 'sources.color as source_color',
         )->orderBy(
             'expenses.bought_at', 'DESC'
         )->get()->map(function ($installment) {
             return [
-                'id' => $installment->expense->id,
-                'user_id' => $installment->expense->user_id,
-                // 'category_id' => $installment->expense->category_id,
-                // 'source_id' => $installment->expense->source_id,
-                'installments_quantity' => $installment->expense->installments_quantity,
+                'id' => $installment->id,
+                'user_id' => $installment->user_id,
+                'installments_quantity' => $installment->installments_quantity,
                 'number' => $installment->number,
                 'cost' => $installment->cost,
                 'formatted_cost' => $installment->formatted_cost,
-                // 'bought_at' => $installment->expense->bought_at,
-                'formatted_bought_at' => $installment->expense->formatted_bought_at,
-                // 'paid_at' => $installment->paid_at,
-                // 'formatted_paid_at' => $installment->formatted_paid_at,
-                'description' => $installment->expense->description,
-                'observation' => $installment->expense->observation,
-                'category_name' => $installment->expense->category->name,
-                'category_color' => $installment->expense->category->color,
-                'source_name' => $installment->expense->source->name,
-                'source_color' => $installment->expense->source->color,
+                'formatted_bought_at' => Carbon::parse($installment->bought_at)->format('d/m/Y'),
+                'description' => $installment->description,
+                'observation' => $installment->observation,
+                'category_name' => $installment->category_name,
+                'category_color' => $installment->category_color,
+                'source_name' => $installment->source_name,
+                'source_color' => $installment->source_color,
             ];
         });
 
