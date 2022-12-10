@@ -59,27 +59,36 @@ function deleteItem(id) {
 
                 <month-filter model="revenues"></month-filter>
 
-                <div class="overflow-hidden border border-slate-400 sm:rounded-lg">
+                <div class="overflow-x-scroll border border-slate-400 sm:rounded-lg">
                     <table class="min-w-full">
                         <thead class="bg-slate-200">
                             <tr class="border-b border-gray-300">
-                                <th class="px-6 py-3 text-right w-1 uppercase text-xs tracking-wider font-bold">Date</th>
-                                <th class="px-6 text-right w-1 uppercase text-xs tracking-wider font-bold">Income</th>
-                                <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Description</th>
-                                <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Observation</th>
+                                <th class="px-2 xl:px-6 py-3 text-right w-1 uppercase text-xs tracking-wider font-bold whitespace-nowrap">Received At</th>
+                                <th class="hidden xl:table-cell px-2 xl:px-6 text-right w-1 uppercase text-xs tracking-wider font-bold">Income</th>
+                                <th class="px-2 xl:px-6 text-left uppercase text-xs tracking-wider font-bold">Description</th>
+                                <th class="hidden xl:table-cell px-2 xl:px-6 text-left uppercase text-xs tracking-wider font-bold">Observation</th>
                                 <th class="text-center uppercase text-xs tracking-wider text-gray-300">Actions</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             <tr v-for="revenue in revenues" :key="revenue.id" class="uppercase text-sm bg-white even:bg-gray-50">
-                                <td class="px-6 py-3 text-right tabular-nums">{{ revenue.formatted_date }}</td>
-                                <td class="px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
+                                <td class="px-2 xl:px-6 py-3 text-right tabular-nums">
+                                    <span>{{ revenue.formatted_date }}</span>
+                                    <div class="block md:hidden text-slate-600 font-semibold text-lg space-x-2">
+                                    	<span class="text-sm text-slate-400 font-normal">R$</span>
+                                        <span>{{ revenue.formatted_income }}</span>
+                                    </div>
+                                </td>
+                                <td class="hidden xl:table-cell px-2 xl:px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-800">
                                     <span class="text-gray-400 text-xs font-sans font-normal">R$</span>
                                     {{ revenue.formatted_income }}
                                 </td>
-                                <td class="px-6">{{ revenue.description }}</td>
-                                <td class="px-6 text-xs text-gray-400">{{ revenue.observation }}</td>
-                                <td class="px-6 text-gray-200 cursor-pointer">
+                                <td class="px-2 xl:px-6 space-y-2">
+                                    <span class="block">{{ revenue.description }}</span>
+                                    <span class="block xl:hidden text-xs text-gray-400">{{ revenue.observation }}</span>
+                                </td>
+                                <td class="hidden xl:table-cell px-2 xl:px-6 text-xs text-gray-400">{{ revenue.observation }}</td>
+                                <td class="px-2 xl:px-6 text-gray-200 cursor-pointer">
                                     <div class="flex justify-center items-center space-x-2">
                                         <Link :href="`/revenues/${revenue.id}/edit`">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 hover:text-indigo-500">
@@ -96,12 +105,12 @@ function deleteItem(id) {
                                 </td>
                             </tr>
                             <tr class="uppercase text-sm bg-slate-300">
-                                <td class="px-6 py-3 text-right">Total:</td>
+                                <td class="hidden xl:table-cell px-6 py-3 text-right"></td>
                                 <td class="px-6 text-right whitespace-nowrap font-mono text-lg font-semibold text-slate-900">
                                     <span class="text-gray-400 text-xs font-sans font-normal">R$</span> {{ stats.total_income }}
                                 </td>
                                 <td class="p-6"></td>
-                                <td class="px-6"></td>
+                                <td class="hidden xl:table-cell px-6"></td>
                                 <td class=""></td>
                             </tr>
                         </tbody>

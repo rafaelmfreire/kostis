@@ -42,7 +42,7 @@ onMounted(() => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl grid grid-cols-5 gap-8 mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-7xl grid grid-cols-1 xl:grid-cols-5 gap-0 gap-y-8 xl:gap-y-0 xl:gap-8 mx-auto sm:px-6 lg:px-8">
                 <form action="#" method="POST" class="col-span-3">
                     <div class="overflow-hidden sm:rounded-md" >
                         <div class="bg-white px-4 py-5 sm:p-6">
@@ -89,19 +89,19 @@ onMounted(() => {
                     </div>
                 </form>
 
-                <div class="col-span-2">
-                    <div class="overflow-hidden sm:rounded-lg border border-gray-300">
+                <div class="col-span-2 w-full">
+                    <div class="overflow-x-scroll sm:rounded-lg border border-gray-300">
                         <table class="min-w-full">
                             <thead class="bg-gray-200">
                                 <tr class="border-b border-gray-300">
-                                    <th class="px-6 py-3 text-right uppercase text-xs tracking-wider font-bold">Cost</th>
-                                    <th class="px-6 text-left uppercase text-xs tracking-wider font-bold">Paid At</th>
+                                    <th class="px-2 xl:px-6 py-3 text-right uppercase text-xs tracking-wider font-bold">Cost</th>
+                                    <th class="px-2 xl:px-6 text-left uppercase text-xs tracking-wider font-bold">Paid At</th>
                                     <th class="text-right pr-6 uppercase text-xs tracking-wider text-gray-300">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 <tr v-for="installment in installments" :key="installment.id" class="uppercase text-sm bg-white even:bg-gray-50">
-                                    <td class="px-6 text-right whitespace-nowrap font-mono text-base text-slate-600">
+                                    <td class="px-2 xl:px-6 text-right whitespace-nowrap font-mono text-base text-slate-600">
                                         <div class="flex justify-between">
                                             <span v-if="expense.installments_quantity > 1" :class="[ expense.installments_quantity == expense.number ? 'bg-green-100 text-green-600': 'font-semibold text-slate-500 bg-slate-200']" class="text-xs py-1 px-2 rounded">
                                                 {{ installment.number }}/{{ expense.installments_quantity }}
@@ -114,9 +114,9 @@ onMounted(() => {
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-3 capitalize tabular-nums">{{ installment.formatted_paid_at }}</td>
-                                    <td class="px-6 text-gray-200">
-                                        <div class="flex justify-end items-center">
+                                    <td class="px-2 xl:px-6 py-3 capitalize tabular-nums">{{ installment.formatted_paid_at }}</td>
+                                    <td class="px-2 xl:px-6 text-gray-200">
+                                        <div class="flex justify-end items-center pr-4">
                                             <Link :href="`/expenses/${expense.id}/installments/${installment.id}/edit`" class="cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 hover:text-indigo-500">
                                                     <path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32l8.4-8.4z" />

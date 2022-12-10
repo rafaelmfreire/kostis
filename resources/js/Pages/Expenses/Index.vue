@@ -75,7 +75,9 @@ function deleteItem(id) {
                         </thead>
                         <tbody class="divide-y divide-gray-200">
                             <tr v-for="expense in expenses" :key="expense.id" class="text-sm bg-white even:bg-slate-50">
-                                <td class="hidden md:table-cell px-2 md:px-6 uppercase"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span></td>
+                                <td class="hidden md:table-cell px-2 md:px-6 uppercase">
+                                    <span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span>
+                                </td>
                                 <td class="px-2 md:px-6 py-3 text-right tabular-nums space-y-2">
                                     <span class="block ">{{ expense.formatted_bought_at }}</span>
                                     <div class="block md:hidden text-slate-600 font-semibold text-lg space-x-2">
@@ -90,8 +92,16 @@ function deleteItem(id) {
                                 <td class="hidden md:table-cell px-2 md:px-6 text-right whitespace-nowrap font-mono text-base font-semibold text-slate-600">
                                     <span class="text-gray-300 text-xs font-sans font-normal">R$</span> {{ expense.formatted_cost }}
                                 </td>
-                                <td class="hidden md:table-cell px-2 md:px-6 uppercase"><span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span></td>
-                                <td class="px-2 md:px-6 uppercase w-full whitespace-nowrap">{{ expense.description }}</td>
+                                <td class="hidden md:table-cell px-2 md:px-6 uppercase">
+                                    <span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span>
+                                </td>
+                                <td class="px-2 md:px-6 uppercase w-full whitespace-nowrap space-y-2">
+                                    <span class="block">{{ expense.description }}</span>
+                                    <div class="block xl:hidden space-x-2">
+                                        <span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.source_color}-200 text-${expense.source_color}-700 whitespace-nowrap`">{{ expense.source_name }}</span>
+                                        <span :class="`px-3 py-1 rounded font-semibold text-xs bg-${expense.category_color}-200 text-${expense.category_color}-700`">{{ expense.category_name }}</span>
+                                    </div>
+                                </td>
                                 <td class="px-2 md:px-6 text-xs w-full text-gray-400">{{ expense.observation }}</td>
                                 <td class="px-2 md:px-6 text-gray-200">
                                     <div class="flex justify-center items-center space-x-2">
