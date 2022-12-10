@@ -38,28 +38,28 @@ function deleteItem(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <div class="flex items-center w-full divide-x overflow-hidden rounded-md mb-8 drop-shadow">
-                    <div class="bg-white rounded-l-md p-8 w-1/4">
+                <div class="grid grid-cols-2 md:grid-cols-4 divide-x overflow-hidden md:rounded-md mb-8 drop-shadow">
+                    <div class="bg-white md:rounded-l-md p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Total Spent</h2>
                         <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.total_cost }}</p>
                     </div>
-                    <div class="bg-white p-8 w-1/4">
+                    <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Most Expensive</h2>
                         <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.most_expensive }}</p>
                     </div>
-                    <div class="bg-white p-8 w-1/4">
+                    <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Average</h2>
                         <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.average }}</p>
                     </div>
-                    <div class="bg-white rounded-r-md p-8 w-1/4">
-                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Quantity of Expenses</h2>
+                    <div class="bg-white md:rounded-r-md p-4 md:p-8 w-full">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Quantity</h2>
                         <p class="text-4xl font-semibold text-slate-800">{{ stats.expenses_quantity }}</p>
                     </div>
                 </div>
 
                 <month-filter model="expenses"></month-filter>
 
-                <div class="overflow-hidden border border-slate-400 sm:rounded-lg">
+                <div class="overflow-x-scroll border border-slate-400 sm:rounded-lg">
                     <table class="min-w-full">
                         <thead class="bg-slate-200">
                             <tr class="border-b border-gray-300">
