@@ -38,22 +38,22 @@ function deleteItem(id) {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-                <div class="grid grid-cols-2 md:grid-cols-4 divide-x overflow-hidden md:rounded-md mb-8 drop-shadow">
-                    <div class="bg-white md:rounded-l-md p-4 md:p-8 w-full">
+                <div class="grid grid-cols-2 xl:grid-cols-4 divide-x overflow-hidden sm:rounded-md mb-8 drop-shadow">
+                    <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Total Earn</h2>
-                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.total_income }}</p>
+                        <p class="text-2xl md:text-4xl font-semibold text-slate-800">R$ {{ stats.total_income }}</p>
                     </div>
                     <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Most Valuable</h2>
-                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.most_valuable }}</p>
+                        <p class="text-2xl md:text-4xl font-semibold text-slate-800">R$ {{ stats.most_valuable }}</p>
                     </div>
                     <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Average</h2>
-                        <p class="text-4xl font-semibold text-slate-800">R$ {{ stats.average }}</p>
+                        <p class="text-2xl md:text-4xl font-semibold text-slate-800">R$ {{ stats.average }}</p>
                     </div>
-                    <div class="bg-white md:rounded-r-md p-4 md:p-8 w-full">
+                    <div class="bg-white p-4 md:p-8 w-full">
                         <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">Quantity of Revenues</h2>
-                        <p class="text-4xl font-semibold text-slate-800">{{ stats.revenues_quantity }}</p>
+                        <p class="text-2xl md:text-4xl font-semibold text-slate-800">{{ stats.revenues_quantity }}</p>
                     </div>
                 </div>
 

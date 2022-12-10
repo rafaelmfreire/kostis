@@ -48,12 +48,12 @@ function reload(month) {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
             </svg>
         </button>
-        <div class="flex justify-center md:hidden">
+        <div class="flex justify-center xl:hidden">
             <button @click="reload(getMonth(new Date().getMonth()-2).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(new Date().getMonth()-2).date) }" > {{ getMonth(new Date().getMonth()-2).string }} </button>
             <button @click="reload(getMonth(new Date().getMonth()-1).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(new Date().getMonth()-1).date) }" > {{ getMonth(new Date().getMonth()-1).string }}</button>
             <button @click="reload(getMonth(new Date().getMonth()).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(new Date().getMonth()).date) }" > {{ getMonth(new Date().getMonth()).string }}</button>
         </div>
-        <div class=" hidden md:flex justify-center">
+        <div class=" hidden xl:flex justify-center">
             <button @click="reload(getMonth(0).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(0).date) }" > {{ getMonth(0).string }} </button>
             <button @click="reload(getMonth(1).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(1).date) }" > {{ getMonth(1).string }}</button>
             <button @click="reload(getMonth(2).date)" class="px-3 py-2 bg-slate-200 hover:bg-indigo-300 tabular-nums" :class="{ 'bg-indigo-400': isCurrentMonth(getMonth(2).date) }" > {{ getMonth(2).string }}</button>
