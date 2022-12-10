@@ -17,7 +17,7 @@ const form = reactive({
 });
 
 function submit() {
-    Inertia.patch(`/expenses/${props.expense.id}/installments/${props.installment.id}`, this.form)
+    Inertia.patch(`/expenses/${props.expense.id}/installments/${props.installment.id}`, form)
 }
 </script>
 
