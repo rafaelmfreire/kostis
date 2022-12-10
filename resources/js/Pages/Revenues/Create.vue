@@ -16,7 +16,7 @@ const form = reactive({
 });
 
 function submit() {
-    Inertia.post('/revenues', this.form, {
+    Inertia.post('/revenues', form, {
         preserveState: (page) => true,
     })
 }

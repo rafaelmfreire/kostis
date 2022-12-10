@@ -14,7 +14,7 @@ const form = reactive({
 });
 
 function submit(addNew) {
-    Inertia.post(route('sources.store'), this.form, {
+    Inertia.post(route('sources.store'), form, {
         preserveState: (page) => true,
     })
 }

@@ -20,8 +20,8 @@ const form = reactive({
 });
 
 function submit(addNew) {
-    this.form.addNew = addNew
-    Inertia.post(route('expenses.store'), this.form, {
+    form.addNew = addNew
+    Inertia.post(route('expenses.store'), form, {
         preserveState: (page) => !addNew,
     })
 }

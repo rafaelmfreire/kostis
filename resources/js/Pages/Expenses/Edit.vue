@@ -23,7 +23,7 @@ const form = reactive({
 });
 
 function submit() {
-    Inertia.patch(route('expenses.update', props.expense.id), this.form)
+    Inertia.patch(route('expenses.update', props.expense.id), form)
 }
 
 onMounted(() => {
