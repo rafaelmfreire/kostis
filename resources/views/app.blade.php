@@ -9,6 +9,8 @@
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Inter:wght@400;600;700&family=Roboto+Mono&display=swap">
 
+        <link rel="icon" href="{{ asset('favicon.svg') }}">
+        
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
