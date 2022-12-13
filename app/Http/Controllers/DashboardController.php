@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Installment;
+use App\Models\Revenue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,8 +39,23 @@ class DashboardController extends Controller
             ];
         });
 
+        $revenues = Revenue::select(
+            DB::raw('sum(income) as income, YEAR(date) as year, MONTH(date) as month')
+        )->groupByRaw(
+            'date, EXTRACT(YEAR_MONTH FROM date)'
+        )->havingBetween(
+            'date', [$year.'-01-01', $year.'-12-31']
+        )->get()->map(function ($revenue) {
+            return [
+                'income' => $revenue->income,
+                'year' => $revenue->year,
+                'month' => $revenue->month
+            ];
+        });
+
         return Inertia::render('Dashboard', [
             'installments' => $installments,
+            'revenues' => $revenues,
             'categories' => $categories,
         ]);
     }
