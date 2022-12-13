@@ -15,6 +15,8 @@ class DashboardController extends Controller
     {
         $categories = Category::all();
 
+        $year = request('year') ?? Carbon::now()->format('Y');
+
         $installments = Installment::join(
             'expenses', 'expenses.id', '=', 'installments.expense_id'
         )->join(
@@ -26,7 +28,7 @@ class DashboardController extends Controller
         )->groupByRaw(
             'categories.id, installments.paid_at, EXTRACT(YEAR_MONTH FROM installments.paid_at)'
         )->havingBetween(
-            'paid_at', [Carbon::now()->format('Y').'-01-01', Carbon::now()->format('Y').'-12-31']
+            'paid_at', [$year.'-01-01', $year.'-12-31']
         )->get()->map(function ($installment) {
             return [
                 'category_id' => $installment->category_id,

@@ -1,15 +1,26 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Inertia } from '@inertiajs/inertia';
 import { Head } from '@inertiajs/inertia-vue3';
+import { ref } from '@vue/reactivity';
 
 const props = defineProps({
     installments: Object,
     categories: Object,
 })
 
+const year = ref( new Date().getFullYear() )
+
 function getCostByMonthAndCategory(month, category_id) {
     var cost = props.installments.filter((installment) => installment.category_id === category_id && installment.month === month)[0]
     return cost ? cost.cost_by_month : '-';
+}
+
+function reload() {
+    Inertia.visit(`/dashboard?year=${year.value}`, {
+        only: ['installments'],
+        preserveState: true
+    })
 }
 </script>
 
@@ -25,7 +36,8 @@ function getCostByMonthAndCategory(month, category_id) {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <h2 class="text-white tracking-wider text-sm mb-2 uppercase">{{ new Date().getFullYear() }} Expenses</h2>
+                <label for="date" class="block text-sm text-white" >Filter By</label >
+                <input @change="reload()" v-model="year" type="number" class="mt-1 block rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm mb-4" />
                 <div class="overflow-x-scroll border border-slate-400 sm:rounded-lg">
                     <table class="min-w-full">
                         <thead class="bg-slate-200">
