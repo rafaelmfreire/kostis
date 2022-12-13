@@ -32,7 +32,7 @@ class DashboardController extends Controller
         )->get()->map(function ($installment) {
             return [
                 'category_id' => $installment->category_id,
-                'cost_by_month' => number_format($installment->total_cost / 100, 2, ',', '.'),
+                'cost_by_month' => $installment->total_cost,
                 'year' => $installment->year,
                 'month' => $installment->month
             ];
