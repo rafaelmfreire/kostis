@@ -57,6 +57,9 @@ class ExpenseController extends Controller
             ];
         });
 
+        $totals_by_source = $installments->groupBy('source_name')->map(function ($item, $key) {
+            return number_format($item->sum('cost') / 100, 2, ',', '.');
+        });
         return inertia('Expenses/Index', [
             'expenses' => $installments,
             'stats' => [
@@ -64,6 +67,7 @@ class ExpenseController extends Controller
                 'most_expensive' => number_format($installments->max('cost') / 100, 2, ',', '.'),
                 'expenses_quantity' => $installments->count(),
                 'average' => number_format(($installments->sum('cost') / ($installments->count() == 0 ? 1 : $installments->count())) / 100, 2, ',', '.'),
+                'totals_by_source' => $totals_by_source
             ],
         ]);
     }

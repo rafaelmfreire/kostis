@@ -134,6 +134,12 @@ function deleteItem(id) {
                         </tbody>
                     </table>
                 </div>
+                <ul class="flex divide-x overflow-hidden sm:rounded-md mb-8 mt-8 drop-shadow">
+                    <li v-for="(item, key) in stats.totals_by_source" :key="key" class="bg-white p-4 md:p-8 w-full">
+                        <h2 class="uppercase text-gray-400 tracking-wider font-semibold mb-2 text-sm">{{ key }}</h2>
+                        <p class="text-2xl font-semibold text-slate-800">R$ {{ item }}</p>
+                    </li>
+                </ul>
             </div>
         </div>
     </AuthenticatedLayout>
