@@ -7,6 +7,7 @@ use App\Models\Installment;
 use App\Models\Revenue;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -26,6 +27,8 @@ class DashboardController extends Controller
             'sources', 'sources.id', '=', 'expenses.source_id'
         )->select(
             DB::raw('sum(installments.cost) as total_cost, categories.id as category_id, YEAR(installments.paid_at) as year, MONTH(installments.paid_at) as month')
+        )->where(
+            'expenses.user_id', Auth::user()->id
         )->groupByRaw(
             'categories.id, installments.paid_at, EXTRACT(YEAR_MONTH FROM installments.paid_at)'
         )->havingBetween(
@@ -41,6 +44,8 @@ class DashboardController extends Controller
 
         $revenues = Revenue::select(
             DB::raw('sum(income) as income, YEAR(date) as year, MONTH(date) as month')
+        )->where(
+            'user_id', Auth::user()->id
         )->groupByRaw(
             'date, EXTRACT(YEAR_MONTH FROM date)'
         )->havingBetween(
