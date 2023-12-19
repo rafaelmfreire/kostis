@@ -98,7 +98,7 @@ function reload() {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-[90rem] mx-auto sm:px-6 lg:px-8">
                 <div>
                     <label for="date" class="block text-sm text-white" >Filter By</label >
                     <input @change="reload()" v-model="year" type="number" class="mt-1 block rounded-md border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm mb-4" />
